@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
 * Студент: [Valeria Khristinina](https://up.htmlacademy.ru/ecmascript/15/user/1791339).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Мастеров](https://htmlacademy.ru/profile/id912463).
 
 ---
 
