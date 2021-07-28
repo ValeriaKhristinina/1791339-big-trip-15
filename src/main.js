@@ -2,7 +2,10 @@ import { createTripInfo } from './view/trip-info.js';
 import { createTripControlsNavigation } from './view/trip-controls-navigation.js';
 import { createTripControlsFilters } from './view/trip-controls-filters.js';
 import { createTripSort } from './view/trip-sort.js';
-import { createEventsList } from './view/events-list.js'
+import { createTripsList } from './view/trips-list.js';
+import { createNewTripForm } from './view/new-trip-form.js';
+import { creatingEditTripForm } from './view/edit-trip-form.js';
+import { createEvent } from './view/event.js';
 
 const tripMain = document.querySelector('.trip-main');
 const tripControlsNavigation = tripMain.querySelector('.trip-controls__navigation');
@@ -19,4 +22,11 @@ render(tripMain, createTripInfo(), 'afterbegin');
 render(tripControlsNavigation, createTripControlsNavigation(), 'beforeend');
 render(tripControlsFilters, createTripControlsFilters(), 'beforeend');
 render(tripEvents, createTripSort(), 'beforeend');
-render(tripEvents, createEventsList(), 'beforeend');
+render(tripEvents, createTripsList(), 'beforeend');
+render(tripEvents, createNewTripForm(), 'afterbegin');
+render(tripEvents, creatingEditTripForm(), 'afterbegin');
+
+const triPListItem = document.querySelector('.trip-events__item');
+for (let i = 0; i < 3; i++) {
+  render(triPListItem, createEvent(), 'beforeend');
+}
