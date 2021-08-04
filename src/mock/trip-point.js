@@ -23,8 +23,6 @@ const createOffer = () => ({
   price: getRandomInteger(20, 80),
 });
 
-const arrOffers = new Array(getRandomInteger(0, 3)).fill().map(createOffer);
-
 const generateTripPoint = () => ({
   type: TYPE_POINT[getRandomInteger(0, TYPE_POINT.length - 1)],
   destination: {
@@ -39,7 +37,7 @@ const generateTripPoint = () => ({
     duration: 32,
   },
   price: getRandomInteger(10, 300),
-  offers: arrOffers,
+  offers: new Array(getRandomInteger(0, 3)).fill().map(createOffer),
   isFavorite: Boolean(getRandomInteger()),
 });
 

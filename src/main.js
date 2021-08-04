@@ -25,11 +25,11 @@ render(tripMain, createTripInfo(), 'afterbegin');
 render(tripControlsNavigation, createTripControlsNavigation(), 'beforeend');
 render(tripControlsFilters, createTripControlsFilters(), 'beforeend');
 render(tripEvents, createTripSort(), 'beforeend');
-render(tripEvents, creatingTripForm('new'), 'beforeend');
+render(tripEvents, creatingTripForm('new', tripPoints[0]), 'beforeend');
 render(tripEvents, createTripsList(), 'beforeend');
 
 const tripList = document.querySelector('.trip-events__list');
-render(tripList, creatingTripForm('edit'), 'afterbegin');
+render(tripList, creatingTripForm('edit', tripPoints[0]), 'afterbegin');
 
 for (let i = 0; i < POINTS_COUNTS; i++) {
   render(tripList, createEvent(tripPoints[i]), 'beforeend');
