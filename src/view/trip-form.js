@@ -1,4 +1,6 @@
-export const creatingTripForm = (mode) => {
+export const creatingTripForm = (mode, point) => {
+  // const {type} = point;
+
   if (mode === 'edit') {
     return `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">

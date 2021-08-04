@@ -18,12 +18,12 @@ const DESTINATION_INFO = [
 
 const OFFERS_TYPE = ['Order Uber', 'Add luggage', 'Rent a car', 'Add breakfast', 'Book tickets', 'Lunch in city'];
 
-const createOffer = () => [{
+const createOffer = () => ({
   title: OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length - 1)],
   price: getRandomInteger(20, 80),
-}];
+});
 
-const arrOffers = new Array(getRandomInteger(0, 5)).fill().map(createOffer);
+const arrOffers = new Array(getRandomInteger(0, 3)).fill().map(createOffer);
 
 const generateTripPoint = () => ({
   type: TYPE_POINT[getRandomInteger(0, TYPE_POINT.length - 1)],

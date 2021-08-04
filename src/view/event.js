@@ -1,20 +1,14 @@
 import dayjs from 'dayjs';
-const list = document.querySelector('.event__selected-offers');
-console.log(list);
 
-const createListOffersTemplate = (offers) => {
-  offers.forEach(offer => {
-  return `<li class="event__offer">
-      <span class="event__offer-title">${offer.type}</span>
+const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="event__offer">
+      <span class="event__offer-title">${offer.title}</span>
       &plus;&euro;&nbsp;
       <span class="event__offer-price">${offer.price}</span>
-    </li>`
-  }
-};
+    </li>`).join('');
 
-export const createEvent = (task) => {
+export const createEvent = (point) => {
 
-  const {datePoint, type, destination, time, price, offers} = task;
+  const {datePoint, type, destination, time, price, offers} = point;
 
   const date = datePoint !== null
     ? dayjs(datePoint).format('MMM D')
