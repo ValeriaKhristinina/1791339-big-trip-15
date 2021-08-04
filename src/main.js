@@ -5,6 +5,11 @@ import { createTripSort } from '@view/trip-sort.js';
 import { createTripsList } from '@view/trips-list.js';
 import { creatingTripForm } from '@view/trip-form.js';
 import { createEvent } from '@view/event.js';
+import { generateTripPoint } from '@/mock/trip-point';
+
+const POINTS_COUNTS = 20;
+
+const tripPoints = new Array(POINTS_COUNTS).fill().map(generateTripPoint);
 
 const tripMain = document.querySelector('.trip-main');
 const tripControlsNavigation = tripMain.querySelector('.trip-controls__navigation');
@@ -26,8 +31,10 @@ render(tripEvents, createTripsList(), 'beforeend');
 const tripList = document.querySelector('.trip-events__list');
 render(tripList, creatingTripForm('edit'), 'afterbegin');
 
-for (let i = 0; i < 3; i++) {
-  render(tripList, createEvent(), 'beforeend');
+for (let i = 0; i < POINTS_COUNTS; i++) {
+  render(tripList, createEvent(tripPoints[i]), 'beforeend');
 }
+
+console.log(tripPoints);
 
 
