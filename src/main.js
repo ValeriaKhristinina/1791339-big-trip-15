@@ -12,21 +12,21 @@ const POINTS_COUNTS = 20;
 const tripPoints = new Array(POINTS_COUNTS).fill().map(generateTripPoint);
 
 const getRout = (points) => {
-  const cities = [];
-  points.forEach((point, index) => {
-    if (point.destination.name != cities[cities.length-1]){
-      cities.push(point.destination.name);
+  const arrCities = [];
+  points.forEach((point) => {
+    if (point.destination.name !== arrCities[arrCities.length-1]){
+      arrCities.push(point.destination.name);
     }
   });
-  return cities;
+  return arrCities;
 };
 
 const getTotalRoutePrice = (points) => {
-  let totalRoutePrice = 0;
+  let totalPrice = 0;
   points.forEach((point) => {
-    totalRoutePrice += point.price;
+    totalPrice += point.price;
   });
-  return totalRoutePrice;
+  return totalPrice;
 };
 
 const cities = getRout(tripPoints);
