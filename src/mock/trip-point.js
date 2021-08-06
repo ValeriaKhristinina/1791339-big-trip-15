@@ -6,8 +6,8 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const TYPE_POINT = ['Taxi', 'Bus', 'Train', 'Ship', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
-const DESTINATION = ['Amsterdam', 'Hoofddorp', 'Den Haague', 'Rotterdam', 'Urtrecht', 'Maastricht', 'Uitgeest'];
+const TYPE_POINT = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+const DESTINATION = ['amsterdam', 'hoofddorp', 'den haague', 'rotterdam', 'urtrecht', 'maastricht', 'uitgeest'];
 const DESTINATION_INFO = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.',
@@ -22,6 +22,11 @@ const createOffer = () => ({
   title: OFFERS_TYPE[getRandomInteger(0, OFFERS_TYPE.length - 1)],
   price: getRandomInteger(20, 80),
 });
+
+const allOffers = OFFERS_TYPE.map((offer) => ({
+  title: offer,
+  price: getRandomInteger(20, 80),
+}));
 
 const generateTripPoint = () => ({
   type: TYPE_POINT[getRandomInteger(0, TYPE_POINT.length - 1)],
@@ -41,4 +46,4 @@ const generateTripPoint = () => ({
   isFavorite: Boolean(getRandomInteger()),
 });
 
-export {generateTripPoint};
+export {generateTripPoint, TYPE_POINT, allOffers, DESTINATION};
