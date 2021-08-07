@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { getDuration } from '@/mock/trip-point';
 
 const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="event__offer">

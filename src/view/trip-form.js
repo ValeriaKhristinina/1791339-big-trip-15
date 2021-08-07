@@ -1,7 +1,7 @@
 import { TYPE_POINT, allOffers , DESTINATION } from '@/mock/trip-point';
 
-const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
-  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" checked>
+const createOfferTemplate = (offers, isChecked) => offers.map((offer, index) => `<div class="event__offer-selector">
+  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" ${isChecked? 'checked': ''}>
   <label class="event__offer-label" for="event-offer-${index}">
     <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
@@ -9,17 +9,8 @@ const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class
   </label>
 </div>`).join('');
 
-const createAllOffersTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
-  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}">
-  <label class="event__offer-label" for="event-offer-${index}">
-    <span class="event__offer-title">${offer.title}</span>
-    &plus;&euro;&nbsp;
-    <span class="event__offer-price">${offer.price}</span>
-  </label>
-</div>`).join('');
-
-const createEventTypeTemplate = (types) => types.map((type) => `<div class="event__type-item">
-<input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
+const createEventTypeTemplate = (types, selectedType) => types.map((type) => `<div class="event__type-item">
+<input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${ selectedType === type ? 'checked': ''}>
 <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
 </div>`).join('');
 
@@ -53,7 +44,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Event type</legend>
-              ${createEventTypeTemplate(TYPE_POINT)}
+              ${createEventTypeTemplate(TYPE_POINT, type)}
             </fieldset>
           </div>
         </div>
@@ -95,7 +86,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
           <div class="event__available-offers">
-            ${createOfferTemplate(offers)}
+            ${createOfferTemplate(offers, true)}
           </div>
         </section>
 
@@ -113,14 +104,14 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <div class="event__type-wrapper">
         <label class="event__type event__type-btn" for="event-type-toggle-1">
           <span class="visually-hidden">Choose event type</span>
-          <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
+          <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
         </label>
         <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${createEventTypeTemplate(TYPE_POINT)}
+            ${createEventTypeTemplate(TYPE_POINT, type)}
           </fieldset>
         </div>
       </div>
@@ -158,7 +149,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${createAllOffersTemplate(allOffers)}
+          ${createOfferTemplate(allOffers, false)}
         </div>
       </section>
 
