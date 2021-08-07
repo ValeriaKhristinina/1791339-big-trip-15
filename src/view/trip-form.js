@@ -120,7 +120,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${createEventTypeTemplate(TYPE_POINT, price)}
+            ${createEventTypeTemplate(TYPE_POINT)}
           </fieldset>
         </div>
       </div>
