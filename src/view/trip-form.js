@@ -1,6 +1,6 @@
 import { TYPE_POINT, allOffers , DESTINATION } from '@/mock/trip-point';
 
-const creatingOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
+const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
   <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" checked>
   <label class="event__offer-label" for="event-offer-${index}">
     <span class="event__offer-title">${offer.title}</span>
@@ -9,7 +9,7 @@ const creatingOfferTemplate = (offers) => offers.map((offer, index) => `<div cla
   </label>
 </div>`).join('');
 
-const creatingAllOffersTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
+const createAllOffersTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
   <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}">
   <label class="event__offer-label" for="event-offer-${index}">
     <span class="event__offer-title">${offer.title}</span>
@@ -18,14 +18,14 @@ const creatingAllOffersTemplate = (offers) => offers.map((offer, index) => `<div
   </label>
 </div>`).join('');
 
-const creatingEventTypeTemplate = (types) => types.map((type) => `<div class="event__type-item">
+const creatуEventTypeTemplate = (types) => types.map((type) => `<div class="event__type-item">
 <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
 <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
 </div>`).join('');
 
-const creatingDestinationTemplate = (destinations) => destinations.map((destination) => `<option value="${destination}"></option>`).join('');
+const createDestinationTemplate = (destinations) => destinations.map((destination) => `<option value="${destination}"></option>`).join('');
 
-export const creatingTripForm = (mode, point = {}) => {
+export const createTripForm = (mode, point = {}) => {
   const {
     type = '',
     destination = '',
@@ -50,7 +50,7 @@ export const creatingTripForm = (mode, point = {}) => {
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Event type</legend>
-              ${creatingEventTypeTemplate(TYPE_POINT)}
+              ${creatуEventTypeTemplate(TYPE_POINT)}
             </fieldset>
           </div>
         </div>
@@ -61,7 +61,7 @@ export const creatingTripForm = (mode, point = {}) => {
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
           <datalist id="destination-list-1">
-            ${creatingDestinationTemplate(DESTINATION)}
+            ${createDestinationTemplate(DESTINATION)}
           </datalist>
         </div>
 
@@ -92,7 +92,7 @@ export const creatingTripForm = (mode, point = {}) => {
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
           <div class="event__available-offers">
-            ${creatingOfferTemplate(offers)}
+            ${createOfferTemplate(offers)}
           </div>
         </section>
 
@@ -117,7 +117,7 @@ export const creatingTripForm = (mode, point = {}) => {
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${creatingEventTypeTemplate(TYPE_POINT, price)}
+            ${creatуEventTypeTemplate(TYPE_POINT, price)}
           </fieldset>
         </div>
       </div>
@@ -128,7 +128,7 @@ export const creatingTripForm = (mode, point = {}) => {
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
         <datalist id="destination-list-1">
-          ${creatingDestinationTemplate(DESTINATION)}
+          ${createDestinationTemplate(DESTINATION)}
         </datalist>
       </div>
 
@@ -155,7 +155,7 @@ export const creatingTripForm = (mode, point = {}) => {
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${creatingAllOffersTemplate(allOffers)}
+          ${createAllOffersTemplate(allOffers)}
         </div>
       </section>
 
