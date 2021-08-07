@@ -1,11 +1,11 @@
 export const createTripRouteTemplate = (cities, totalPrice, startDate, finishDate) => {
-  const stringCities = cities.join(' &mdash; ');
+  const citiesLable = cities.join(' &mdash; ');
   startDate = startDate.format('MMM D');
   finishDate = finishDate.format('MMM D');
 
   return`<section class="trip-main__trip-info  trip-info">
     <div class="trip-info__main">
-      <h1 class="trip-info__title">${stringCities}</h1>
+      <h1 class="trip-info__title">${citiesLable}</h1>
 
       <p class="trip-info__dates">${startDate}&nbsp;&mdash;&nbsp;${finishDate}</p>
     </div>
