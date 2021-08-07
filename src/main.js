@@ -7,9 +7,9 @@ import { createTripFormTemplate } from '@view/trip-form.js';
 import { createEventTemplate } from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
 
-const POINTS_COUNTS = 20;
+const POINTS_COUNT = 20;
 
-const tripPoints = new Array(POINTS_COUNTS).fill().map(generateTripPoint);
+const tripPoints = new Array(POINTS_COUNT).fill().map(generateTripPoint);
 
 console.log(tripPoints);
 
@@ -56,7 +56,7 @@ render(tripEvents, createTripsListTemplate(), 'beforeend');
 const tripList = document.querySelector('.trip-events__list');
 render(tripList, createTripFormTemplate('edit', tripPoints[0]), 'afterbegin');
 
-for (let i = 0; i < POINTS_COUNTS; i++) {
+for (let i = 0; i < POINTS_COUNT; i++) {
   render(tripList, createEventTemplate(tripPoints[i]), 'beforeend');
 }
 
