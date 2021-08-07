@@ -35,15 +35,24 @@ const generateTripPoint = () => ({
     info: DESTINATION_INFO[getRandomInteger(0, DESTINATION.length - 1)],
   },
   photos: [`http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`],
-  datePoint: dayjs(),
-  time: {
-    from: dayjs().format('HH:MM'),
-    to: dayjs().format('HH:MM'),
-    duration: 32,
-  },
+  dateFrom: dayjs(),
+  dateTo: dayjs().add(getRandomInteger(0,3), 'day').add(getRandomInteger(0, 12), 'hour').add(getRandomInteger(0, 60), 'minute'),
   price: getRandomInteger(10, 300),
   offers: new Array(getRandomInteger(0, 3)).fill().map(createOffer),
   isFavorite: Boolean(getRandomInteger()),
 });
 
-export {generateTripPoint, TYPE_POINT, allOffers, DESTINATION};
+const getDuration = (start, finish) => {
+  const duration = dayjs(finish.diff(start));
+  if (finish.diff(start, 'hour') < 1) {
+    return duration.format('mm[M]');
+  }
+  if (finish.diff(start, 'day') <= 1) {
+    return duration.format('HH[H] mm[M]');
+  }
+  if (finish.diff(start, 'day') > 1) {
+    return duration.format('DD[D] HH[H] mm[M]');
+  }
+};
+
+export {generateTripPoint, TYPE_POINT, allOffers, DESTINATION, getDuration};

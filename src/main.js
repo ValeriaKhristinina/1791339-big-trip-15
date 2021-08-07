@@ -31,8 +31,8 @@ const getTotalRoutePrice = (points) => {
 
 const cities = getRout(tripPoints);
 const totalRoutePrice = getTotalRoutePrice(tripPoints);
-const startRouteDate = tripPoints[0].datePoint;
-const finishRouteDate = tripPoints[tripPoints.length-1].datePoint;
+const startRouteDate = tripPoints[0].dateFrom;
+const finishRouteDate = tripPoints[tripPoints.length-1].dateTo;
 
 const tripMain = document.querySelector('.trip-main');
 const tripControlsNavigation = tripMain.querySelector('.trip-controls__navigation');

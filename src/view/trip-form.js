@@ -30,11 +30,14 @@ export const createTripFormTemplate = (mode, point = {}) => {
     type = '',
     destination = '',
     price = 0,
-    time = null,
-    datePoint = null,
+    dateFrom = null,
+    dateTo = null,
     offers = null,
   } = point;
-  const date = datePoint.format('DD/MM/YY');
+  const dateFromLabel = dateFrom.format('DD/MM/YY');
+  const dateToLabel = dateTo.format('DD/MM/YY');
+  const timeFrom = dateFrom.format('HH:mm');
+  const timeTo = dateTo.format('HH:mm');
 
   if (mode === 'edit') {
     return `<li class="trip-events__item">
@@ -67,10 +70,10 @@ export const createTripFormTemplate = (mode, point = {}) => {
 
         <div class="event__field-group  event__field-group--time">
           <label class="visually-hidden" for="event-start-time-1">From</label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${date} ${time.from}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateFromLabel} ${timeFrom}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">To</label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${date} ${time.to}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateToLabel} ${timeTo}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -134,10 +137,10 @@ export const createTripFormTemplate = (mode, point = {}) => {
 
       <div class="event__field-group  event__field-group--time">
         <label class="visually-hidden" for="event-start-time-1">From</label>
-        <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${date} ${time.from}">
+        <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateFromLabel} ${timeFrom}">
         &mdash;
         <label class="visually-hidden" for="event-end-time-1">To</label>
-        <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${date} ${time.to}">
+        <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateToLabel} ${timeTo}">
       </div>
 
       <div class="event__field-group  event__field-group--price">
