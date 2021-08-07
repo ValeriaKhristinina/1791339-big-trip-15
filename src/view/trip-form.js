@@ -19,7 +19,7 @@ const createDestinationTemplate = (destinations) => destinations.map((destinatio
 export const createTripFormTemplate = (mode, point = {}) => {
   const {
     type = '',
-    destination = '',
+    destination,
     price = 0,
     dateFrom = null,
     dateTo = null,
@@ -53,7 +53,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination !== null ? destination.name : ''}" list="destination-list-1">
           <datalist id="destination-list-1">
             ${createDestinationTemplate(DESTINATIONS)}
           </datalist>
@@ -89,11 +89,11 @@ export const createTripFormTemplate = (mode, point = {}) => {
             ${createOfferTemplate(offers, true)}
           </div>
         </section>
+        ${ destination && destination.info ? `<section class="event__section  event__section--destination">
+        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+        <p class="event__destination-description">${destination.info}</p>
+      </section>` : ''}
 
-        <section class="event__section  event__section--destination">
-          <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${destination.info}</p>
-        </section>
       </section>
     </form>
   </li>`;
@@ -120,7 +120,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
         <label class="event__label  event__type-output" for="event-destination-1">
           ${type}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination !== null ? destination.name : ''}" list="destination-list-1">
         <datalist id="destination-list-1">
           ${createDestinationTemplate(DESTINATIONS)}
         </datalist>
@@ -152,21 +152,20 @@ export const createTripFormTemplate = (mode, point = {}) => {
           ${createOfferTemplate(allOffers, false)}
         </div>
       </section>
-
-      <section class="event__section  event__section--destination">
-        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">${destination.info}</p>
-
-        <div class="event__photos-container">
-          <div class="event__photos-tape">
-            <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
-          </div>
+      ${ destination && (destination.info) ? `<section class="event__section  event__section--destination">
+      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+      <p class="event__destination-description">${destination.info}</p>
+      <div class="event__photos-container">
+        <div class="event__photos-tape">
+          <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
+          <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
+          <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
+          <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
+          <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
         </div>
-      </section>
+      </div>
+    </section>` : ''}
+
     </section>
   </form>`;
   }
