@@ -18,7 +18,7 @@ const createAllOffersTemplate = (offers) => offers.map((offer, index) => `<div c
   </label>
 </div>`).join('');
 
-const creatуEventTypeTemplate = (types) => types.map((type) => `<div class="event__type-item">
+const createEventTypeTemplate = (types) => types.map((type) => `<div class="event__type-item">
 <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
 <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
 </div>`).join('');
@@ -53,7 +53,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Event type</legend>
-              ${creatуEventTypeTemplate(TYPE_POINT)}
+              ${createEventTypeTemplate(TYPE_POINT)}
             </fieldset>
           </div>
         </div>
@@ -120,7 +120,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${creatуEventTypeTemplate(TYPE_POINT, price)}
+            ${createEventTypeTemplate(TYPE_POINT, price)}
           </fieldset>
         </div>
       </div>
