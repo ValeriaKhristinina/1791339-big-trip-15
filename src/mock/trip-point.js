@@ -32,7 +32,7 @@ const generateTripPoint = () => ({
   type: TYPE_POINTS[getRandomInteger(0, TYPE_POINTS.length - 1)],
   destination: {
     name: DESTINATIONS[getRandomInteger(0, DESTINATIONS.length - 1)],
-    info: DESTINATIONS_INFO[getRandomInteger(0, DESTINATIONS.length - 1)],
+    info: DESTINATIONS_INFO[getRandomInteger(0, DESTINATIONS_INFO.length - 1)],
   },
   photos: [`http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`],
   dateFrom: dayjs(),
