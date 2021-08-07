@@ -25,7 +25,7 @@ const creatуEventTypeTemplate = (types) => types.map((type) => `<div class="eve
 
 const createDestinationTemplate = (destinations) => destinations.map((destination) => `<option value="${destination}"></option>`).join('');
 
-export const createTripForm = (mode, point = {}) => {
+export const createTripFormTemplate = (mode, point = {}) => {
   const {
     type = '',
     destination = '',
@@ -75,7 +75,7 @@ export const createTripForm = (mode, point = {}) => {
 
         <div class="event__field-group  event__field-group--price">
           <label class="event__label" for="event-price-1">
-            <span class="visually-hidden">${price}</span>
+            <span class="visually-hidden">Price</span>
             &euro;
           </label>
           <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
@@ -142,7 +142,7 @@ export const createTripForm = (mode, point = {}) => {
 
       <div class="event__field-group  event__field-group--price">
         <label class="event__label" for="event-price-1">
-          <span class="visually-hidden">${price}</span>
+          <span class="visually-hidden">Price</span>
           &euro;
         </label>
         <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">

@@ -1,10 +1,10 @@
-import { createTripRoute } from '@view/trip-route.js';
-import { createTripControlsNavigation } from '@view/trip-controls-navigation.js';
-import { createTripControlsFilters } from '@view/trip-controls-filters.js';
-import { createTripSort } from '@view/trip-sort.js';
-import { createTripsList } from '@view/trips-list.js';
-import { createTripForm } from '@view/trip-form.js';
-import { createEvent } from '@view/event.js';
+import { createTripRouteTemplate } from '@view/trip-route.js';
+import { createTripControlsNavigationTemplate } from '@view/trip-controls-navigation.js';
+import { createTripControlsFiltersTemplate } from '@view/trip-controls-filters.js';
+import { createTripSortTemplate } from '@view/trip-sort.js';
+import { createTripsListTemplate } from '@view/trips-list.js';
+import { createTripFormTemplate } from '@view/trip-form.js';
+import { createEventTemplate } from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
 
 const POINTS_COUNTS = 20;
@@ -44,18 +44,18 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-render(tripMain, createTripRoute(cities, totalRoutePrice, startRouteDate, finishRouteDate), 'afterbegin');
-render(tripControlsNavigation, createTripControlsNavigation(), 'beforeend');
-render(tripControlsFilters, createTripControlsFilters(), 'beforeend');
-render(tripEvents, createTripSort(), 'beforeend');
-render(tripEvents, createTripForm('new', tripPoints[0]), 'beforeend');
-render(tripEvents, createTripsList(), 'beforeend');
+render(tripMain, createTripRouteTemplate(cities, totalRoutePrice, startRouteDate, finishRouteDate), 'afterbegin');
+render(tripControlsNavigation, createTripControlsNavigationTemplate(), 'beforeend');
+render(tripControlsFilters, createTripControlsFiltersTemplate(), 'beforeend');
+render(tripEvents, createTripSortTemplate(), 'beforeend');
+render(tripEvents, createTripFormTemplate('new', tripPoints[0]), 'beforeend');
+render(tripEvents, createTripsListTemplate(), 'beforeend');
 
 const tripList = document.querySelector('.trip-events__list');
-render(tripList, createTripForm('edit', tripPoints[0]), 'afterbegin');
+render(tripList, createTripFormTemplate('edit', tripPoints[0]), 'afterbegin');
 
 for (let i = 0; i < POINTS_COUNTS; i++) {
-  render(tripList, createEvent(tripPoints[i]), 'beforeend');
+  render(tripList, createEventTemplate(tripPoints[i]), 'beforeend');
 }
 
 

@@ -6,7 +6,7 @@ const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="e
       <span class="event__offer-price">${offer.price}</span>
     </li>`).join('');
 
-export const createEvent = (point) => {
+export const createEventTemplate = (point) => {
 
   const {datePoint, type, destination, time, price, offers} = point;
 

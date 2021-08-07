@@ -1,4 +1,4 @@
-export const createTripRoute = (cities, totalPrice, startDate, finishDate) => {
+export const createTripRouteTemplate = (cities, totalPrice, startDate, finishDate) => {
   const stringCities = cities.join(' &mdash; ');
   startDate = startDate.format('MMM D');
   finishDate = finishDate.format('MMM D');
