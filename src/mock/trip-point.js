@@ -6,9 +6,9 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const TYPE_POINT = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
-const DESTINATION = ['amsterdam', 'hoofddorp', 'den haague', 'rotterdam', 'urtrecht', 'maastricht', 'uitgeest'];
-const DESTINATION_INFO = [
+const TYPE_POINTS = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+const DESTINATIONS = ['amsterdam', 'hoofddorp', 'den haague', 'rotterdam', 'urtrecht', 'maastricht', 'uitgeest'];
+const DESTINATIONS_INFO = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.',
   'Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
@@ -29,10 +29,10 @@ const allOffers = OFFERS_TYPE.map((offer) => ({
 }));
 
 const generateTripPoint = () => ({
-  type: TYPE_POINT[getRandomInteger(0, TYPE_POINT.length - 1)],
+  type: TYPE_POINTS[getRandomInteger(0, TYPE_POINTS.length - 1)],
   destination: {
-    name: DESTINATION[getRandomInteger(0, DESTINATION.length - 1)],
-    info: DESTINATION_INFO[getRandomInteger(0, DESTINATION.length - 1)],
+    name: DESTINATIONS[getRandomInteger(0, DESTINATIONS.length - 1)],
+    info: DESTINATIONS_INFO[getRandomInteger(0, DESTINATIONS.length - 1)],
   },
   photos: [`http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`],
   dateFrom: dayjs(),
@@ -55,4 +55,4 @@ const getDuration = (start, finish) => {
   }
 };
 
-export {generateTripPoint, TYPE_POINT, allOffers, DESTINATION, getDuration};
+export {generateTripPoint, TYPE_POINTS, allOffers, DESTINATIONS, getDuration};

@@ -11,6 +11,8 @@ const POINTS_COUNTS = 20;
 
 const tripPoints = new Array(POINTS_COUNTS).fill().map(generateTripPoint);
 
+console.log(tripPoints);
+
 const getRout = (points) => {
   const arrCities = [];
   points.forEach((point) => {

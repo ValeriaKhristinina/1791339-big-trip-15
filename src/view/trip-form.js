@@ -1,4 +1,4 @@
-import { TYPE_POINT, allOffers , DESTINATION } from '@/mock/trip-point';
+import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
 
 const createOfferTemplate = (offers, isChecked) => offers.map((offer, index) => `<div class="event__offer-selector">
   <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" ${isChecked? 'checked': ''}>
@@ -44,7 +44,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Event type</legend>
-              ${createEventTypeTemplate(TYPE_POINT, type)}
+              ${createEventTypeTemplate(TYPE_POINTS, type)}
             </fieldset>
           </div>
         </div>
@@ -55,7 +55,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
           <datalist id="destination-list-1">
-            ${createDestinationTemplate(DESTINATION)}
+            ${createDestinationTemplate(DESTINATIONS)}
           </datalist>
         </div>
 
@@ -111,7 +111,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${createEventTypeTemplate(TYPE_POINT, type)}
+            ${createEventTypeTemplate(TYPE_POINTS, type)}
           </fieldset>
         </div>
       </div>
@@ -122,7 +122,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
         <datalist id="destination-list-1">
-          ${createDestinationTemplate(DESTINATION)}
+          ${createDestinationTemplate(DESTINATIONS)}
         </datalist>
       </div>
 
