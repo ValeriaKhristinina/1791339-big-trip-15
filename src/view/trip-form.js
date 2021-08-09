@@ -16,6 +16,8 @@ const createEventTypeTemplate = (types, selectedType) => types.map((type) => `<d
 
 const createDestinationTemplate = (destinations) => destinations.map((destination) => `<option value="${destination}"></option>`).join('');
 
+const createImageTemplate = (photos) => photos.map((photo) => `<img class="event__photo" src="${photo}" alt="Event photo">`).join('');
+
 export const createTripFormTemplate = (mode, point = {}) => {
   const {
     type = '',
@@ -24,6 +26,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
     dateFrom = null,
     dateTo = null,
     offers = null,
+    photos = null,
   } = point;
   const dateFromLabel = dateFrom.format('DD/MM/YY');
   const dateToLabel = dateTo.format('DD/MM/YY');
@@ -157,11 +160,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <p class="event__destination-description">${destination.info}</p>
       <div class="event__photos-container">
         <div class="event__photos-tape">
-          <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-          <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
+        ${createImageTemplate(photos)}
         </div>
       </div>
     </section>` : ''}

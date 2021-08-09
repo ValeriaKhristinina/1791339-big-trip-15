@@ -34,7 +34,7 @@ const generateTripPoint = () => ({
     name: DESTINATIONS[getRandomInteger(0, DESTINATIONS.length - 1)],
     info: DESTINATIONS_INFO[getRandomInteger(0, DESTINATIONS_INFO.length - 1)],
   },
-  photos: [`http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`],
+  photos: [`http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`, `http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`, `http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`],
   dateFrom: dayjs(),
   dateTo: dayjs().add(getRandomInteger(0,3), 'day').add(getRandomInteger(0, 12), 'hour').add(getRandomInteger(0, 60), 'minute'),
   price: getRandomInteger(10, 300),
