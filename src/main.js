@@ -11,16 +11,14 @@ const POINTS_COUNT = 20;
 
 const tripPoints = new Array(POINTS_COUNT).fill().map(generateTripPoint);
 
-console.log(tripPoints);
-
-const getRout = (points) => {
-  const arrCities = [];
+const getFullRout = (points) => {
+  const destinationCities = [];
   points.forEach((point) => {
-    if (point.destination.name !== arrCities[arrCities.length-1]){
-      arrCities.push(point.destination.name);
+    if (point.destination.name !== destinationCities[destinationCities.length-1]){
+      destinationCities.push(point.destination.name);
     }
   });
-  return arrCities;
+  return destinationCities;
 };
 
 const getTotalRoutePrice = (points) => {
@@ -31,7 +29,7 @@ const getTotalRoutePrice = (points) => {
   return totalPrice;
 };
 
-const cities = getRout(tripPoints);
+const cities = getFullRout(tripPoints);
 const totalRoutePrice = getTotalRoutePrice(tripPoints);
 const startRouteDate = tripPoints[0].dateFrom;
 const finishRouteDate = tripPoints[tripPoints.length-1].dateTo;
