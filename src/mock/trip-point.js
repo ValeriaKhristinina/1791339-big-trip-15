@@ -1,10 +1,5 @@
 import dayjs from 'dayjs';
-
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+import { getRandomInteger } from '@/utils';
 
 const TYPE_POINTS = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const DESTINATIONS = ['amsterdam', 'hoofddorp', 'den haague', 'rotterdam', 'urtrecht', 'maastricht', 'uitgeest'];
@@ -42,17 +37,4 @@ const generateTripPoint = () => ({
   isFavorite: Boolean(getRandomInteger()),
 });
 
-const getDuration = (start, finish) => {
-  const duration = dayjs(finish.diff(start));
-  if (finish.diff(start, 'hour') < 1) {
-    return duration.format('mm[M]');
-  }
-  if (finish.diff(start, 'day') <= 1) {
-    return duration.format('HH[H] mm[M]');
-  }
-  if (finish.diff(start, 'day') > 1) {
-    return duration.format('DD[D] HH[H] mm[M]');
-  }
-};
-
-export {generateTripPoint, TYPE_POINTS, allOffers, DESTINATIONS, getDuration};
+export {generateTripPoint, TYPE_POINTS, allOffers, DESTINATIONS};

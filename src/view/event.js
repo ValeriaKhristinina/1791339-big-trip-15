@@ -1,4 +1,4 @@
-import { getDuration } from '@/mock/trip-point';
+import { getDuration } from '@/utils';
 
 const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="event__offer">
       <span class="event__offer-title">${offer.title}</span>
