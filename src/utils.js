@@ -6,6 +6,13 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
+const createElement = (template) => {
+  const newElement = document.createElement('div');
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
 const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -44,4 +51,4 @@ const getDuration = (start, finish) => {
   }
 };
 
-export {getRandomInteger, renderTemplate, getTotalRoutePrice, getFullRout, getDuration};
+export {getRandomInteger, createElement, renderTemplate, getTotalRoutePrice, getFullRout, getDuration};
