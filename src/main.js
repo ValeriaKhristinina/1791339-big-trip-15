@@ -10,6 +10,7 @@ import { generateTripPoint } from '@/mock/trip-point';
 const POINTS_COUNT = 20;
 
 const tripPoints = new Array(POINTS_COUNT).fill().map(generateTripPoint);
+tripPoints.sort((firstElement, secondElement)=> firstElement.dateFrom - secondElement.dateFrom);
 
 const getFullRout = (points) => {
   const destinationCities = [];
