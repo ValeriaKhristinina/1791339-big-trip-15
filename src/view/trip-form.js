@@ -73,7 +73,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
           <span class="visually-hidden">Price</span>
           &euro;
         </label>
-        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">
+        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
       </div>
 
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -86,7 +86,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${createOfferTemplate(allOffers, mode === 'edit')}
+          ${createOfferTemplate(mode === 'edit' ? offers : allOffers, mode === 'edit')}
         </div>
       </section>
       ${ destination && (destination.info) ? `<section class="event__section  event__section--destination">
@@ -101,5 +101,4 @@ export const createTripFormTemplate = (mode, point = {}) => {
 
     </section>
   </form>`;
-
 };
