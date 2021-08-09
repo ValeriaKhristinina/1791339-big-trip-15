@@ -24,6 +24,9 @@ const getFullRout = (points) => {
 const getTotalRoutePrice = (points) => {
   let totalPrice = 0;
   points.forEach((point) => {
+    point.offers.forEach((offer) => {
+      totalPrice += offer.price;
+    });
     totalPrice += point.price;
   });
   return totalPrice;
