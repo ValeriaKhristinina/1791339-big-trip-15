@@ -1,23 +1,40 @@
 import dayjs from 'dayjs';
 
-const getRandomInteger = (a = 0, b = 1) => {
+export const RenderPosition = {
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend',
+};
+
+export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const createElement = (template) => {
+export const createElement = (template) => {
   const newElement = document.createElement('div');
   newElement.innerHTML = template;
 
   return newElement.firstChild;
 };
 
-const renderTemplate = (container, template, place) => {
+
+export const renderElement = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+export const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const getFullRout = (points) => {
+export const getFullRout = (points) => {
   const destinationCities = [];
   points.forEach((point) => {
     if (point.destination.name !== destinationCities[destinationCities.length-1]){
@@ -27,7 +44,7 @@ const getFullRout = (points) => {
   return destinationCities;
 };
 
-const getTotalRoutePrice = (points) => {
+export const getTotalRoutePrice = (points) => {
   let totalPrice = 0;
   points.forEach((point) => {
     point.offers.forEach((offer) => {
@@ -38,7 +55,7 @@ const getTotalRoutePrice = (points) => {
   return totalPrice;
 };
 
-const getDuration = (start, finish) => {
+export const getDuration = (start, finish) => {
   const duration = dayjs(finish.diff(start));
   if (finish.diff(start, 'hour') < 1) {
     return duration.format('mm[M]');
@@ -50,5 +67,3 @@ const getDuration = (start, finish) => {
     return duration.format('DD[D] HH[H] mm[M]');
   }
 };
-
-export {getRandomInteger, createElement, renderTemplate, getTotalRoutePrice, getFullRout, getDuration};
