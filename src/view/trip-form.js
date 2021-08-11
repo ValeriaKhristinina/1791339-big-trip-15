@@ -1,3 +1,4 @@
+import {createElement} from '@/utils.js';
 import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
 
 const createOfferTemplate = (offers, isChecked) => offers.map((offer, index) => `<div class="event__offer-selector">
@@ -102,3 +103,26 @@ export const createTripFormTemplate = (mode, point = {}) => {
     </section>
   </form>`;
 };
+
+export default class TripForm {
+  constructor(mode, point) {
+    this._mode = mode;
+    this._point = point;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripFormTemplate(this._mode, this._point);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

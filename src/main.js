@@ -3,10 +3,10 @@ import TripControlsNavigationView from '@view/trip-controls-navigation.js';
 import TripControlsFiltersView from '@view/trip-controls-filters.js';
 import TripSortView from '@view/trip-sort.js';
 import TripsListView from '@view/trips-list.js';
-import { createTripFormTemplate } from '@view/trip-form.js';
+import TripFormView from '@view/trip-form.js';
 import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
-import { renderTemplate, renderElement, RenderPosition, getTotalRoutePrice, getFullRout } from '@/utils';
+import { render, RenderPosition, getTotalRoutePrice, getFullRout } from '@/utils';
 
 const POINTS_COUNT = 20;
 
@@ -30,18 +30,18 @@ const pageMain = document.querySelector('.page-main');
 const tripEvents = pageMain.querySelector('.trip-events');
 
 
-renderElement(tripMain, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate).getElement(), RenderPosition.AFTERBEGIN);
-renderElement(tripControlsNavigation, new TripControlsNavigationView().getElement(), RenderPosition.BEFOREEND);
-renderElement(tripControlsFilters, new TripControlsFiltersView().getElement(), RenderPosition.BEFOREEND);
-renderElement(tripEvents, new TripSortView().getElement(), RenderPosition.BEFOREEND);
-renderTemplate(tripEvents, createTripFormTemplate(MODE.NEW, tripPoints[0]), 'beforeend');
-renderElement(tripEvents, new TripsListView().getElement(), RenderPosition.BEFOREEND);
+render(tripMain, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate).getElement(), RenderPosition.AFTERBEGIN);
+render(tripControlsNavigation, new TripControlsNavigationView().getElement(), RenderPosition.BEFOREEND);
+render(tripControlsFilters, new TripControlsFiltersView().getElement(), RenderPosition.BEFOREEND);
+render(tripEvents, new TripSortView().getElement(), RenderPosition.BEFOREEND);
+render(tripEvents, new TripFormView(MODE.NEW, tripPoints[0]).getElement(), RenderPosition.BEFOREEND);
+render(tripEvents, new TripsListView().getElement(), RenderPosition.BEFOREEND);
 
 const tripList = document.querySelector('.trip-events__list');
-renderTemplate(tripList, createTripFormTemplate(MODE.EDIT, tripPoints[0]), 'afterbegin');
+render(tripList, new TripFormView(MODE.EDIT, tripPoints[0]).getElement(), RenderPosition.AFTERBEGIN);
 
 for (let i = 0; i < POINTS_COUNT; i++) {
-  renderElement(tripList, new EventView(tripPoints[i]).getElement(), 'beforeend');
+  render(tripList, new EventView(tripPoints[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
 
