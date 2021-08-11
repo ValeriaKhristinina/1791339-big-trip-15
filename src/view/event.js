@@ -1,4 +1,4 @@
-import { getDuration } from '@/utils';
+import { createElement, getDuration } from '@/utils';
 
 const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="event__offer">
       <span class="event__offer-title">${offer.title}</span>
@@ -6,7 +6,7 @@ const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="e
       <span class="event__offer-price">${offer.price}</span>
     </li>`).join('');
 
-export const createEventTemplate = (point) => {
+const createEventTemplate = (point) => {
 
   const {dateFrom, dateTo, type, destination, price, offers, isFavorite} = point;
 
@@ -54,3 +54,25 @@ export const createEventTemplate = (point) => {
     </div>
   </li>`;
 };
+
+export default class Event {
+  constructor(point) {
+    this._point = point;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventTemplate(this._point);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

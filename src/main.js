@@ -4,7 +4,7 @@ import TripControlsFiltersView from '@view/trip-controls-filters.js';
 import TripSortView from '@view/trip-sort.js';
 import TripsListView from '@view/trips-list.js';
 import { createTripFormTemplate } from '@view/trip-form.js';
-import { createEventTemplate } from '@view/event.js';
+import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
 import { renderTemplate, renderElement, RenderPosition, getTotalRoutePrice, getFullRout } from '@/utils';
 
@@ -41,7 +41,7 @@ const tripList = document.querySelector('.trip-events__list');
 renderTemplate(tripList, createTripFormTemplate(MODE.EDIT, tripPoints[0]), 'afterbegin');
 
 for (let i = 0; i < POINTS_COUNT; i++) {
-  renderTemplate(tripList, createEventTemplate(tripPoints[i]), 'beforeend');
+  renderElement(tripList, new EventView(tripPoints[i]).getElement(), 'beforeend');
 }
 
 
