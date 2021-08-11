@@ -1,5 +1,5 @@
 import { createTripRouteTemplate } from '@view/trip-route.js';
-import { createTripControlsNavigationTemplate } from '@view/trip-controls-navigation.js';
+import TripControlsNavigationView from '@view/trip-controls-navigation.js';
 import { createTripControlsFiltersTemplate } from '@view/trip-controls-filters.js';
 import TripSortView from '@view/trip-sort.js';
 import TripsListView from '@view/trips-list.js';
@@ -31,7 +31,7 @@ const tripEvents = pageMain.querySelector('.trip-events');
 
 
 renderTemplate(tripMain, createTripRouteTemplate(cities, totalRoutePrice, startRouteDate, finishRouteDate), 'afterbegin');
-renderTemplate(tripControlsNavigation, createTripControlsNavigationTemplate(), 'beforeend');
+renderElement(tripControlsNavigation, new TripControlsNavigationView().getElement, RenderPosition.BEFOREEND);
 renderTemplate(tripControlsFilters, createTripControlsFiltersTemplate(), 'beforeend');
 renderElement(tripEvents, new TripSortView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripEvents, createTripFormTemplate(MODE.NEW, tripPoints[0]), 'beforeend');
