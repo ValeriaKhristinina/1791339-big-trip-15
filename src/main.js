@@ -1,12 +1,12 @@
 import { createTripRouteTemplate } from '@view/trip-route.js';
 import { createTripControlsNavigationTemplate } from '@view/trip-controls-navigation.js';
 import { createTripControlsFiltersTemplate } from '@view/trip-controls-filters.js';
-import { createTripSortTemplate } from '@view/trip-sort.js';
+import TripSortView from '@view/trip-sort.js';
 import { createTripsListTemplate } from '@view/trips-list.js';
 import { createTripFormTemplate } from '@view/trip-form.js';
 import { createEventTemplate } from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
-import { renderTemplate, getTotalRoutePrice, getFullRout } from '@/utils';
+import { renderTemplate, renderElement, RenderPosition, getTotalRoutePrice, getFullRout } from '@/utils';
 
 const POINTS_COUNT = 20;
 
@@ -33,7 +33,7 @@ const tripEvents = pageMain.querySelector('.trip-events');
 renderTemplate(tripMain, createTripRouteTemplate(cities, totalRoutePrice, startRouteDate, finishRouteDate), 'afterbegin');
 renderTemplate(tripControlsNavigation, createTripControlsNavigationTemplate(), 'beforeend');
 renderTemplate(tripControlsFilters, createTripControlsFiltersTemplate(), 'beforeend');
-renderTemplate(tripEvents, createTripSortTemplate(), 'beforeend');
+renderElement(tripEvents, new TripSortView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripEvents, createTripFormTemplate(MODE.NEW, tripPoints[0]), 'beforeend');
 renderTemplate(tripEvents, createTripsListTemplate(), 'beforeend');
 
