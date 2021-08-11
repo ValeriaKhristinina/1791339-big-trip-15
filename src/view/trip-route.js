@@ -1,4 +1,6 @@
-export const createTripRouteTemplate = (cities, totalPrice, startDate, finishDate) => {
+import { createElement } from '@/utils';
+
+const createTripRouteTemplate = (cities, totalPrice, startDate, finishDate) => {
   const citiesLable = cities.join(' &mdash; ');
   startDate = startDate.format('MMM D');
   finishDate = finishDate.format('MMM D');
@@ -15,3 +17,28 @@ export const createTripRouteTemplate = (cities, totalPrice, startDate, finishDat
     </p>
   </section>`;
 };
+
+export default class TripRoute {
+  constructor(cities, totalPrice, startDate, finishDate) {
+    this._cities = cities;
+    this._totalPrice = totalPrice;
+    this._startDate = startDate;
+    this._finishDate = finishDate;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripRouteTemplate(this._cities, this._totalPrice, this._startDate, this._finishDate);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
