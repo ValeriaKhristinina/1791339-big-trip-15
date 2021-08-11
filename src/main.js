@@ -2,7 +2,7 @@ import { createTripRouteTemplate } from '@view/trip-route.js';
 import { createTripControlsNavigationTemplate } from '@view/trip-controls-navigation.js';
 import { createTripControlsFiltersTemplate } from '@view/trip-controls-filters.js';
 import TripSortView from '@view/trip-sort.js';
-import { createTripsListTemplate } from '@view/trips-list.js';
+import TripsListView from '@view/trips-list.js';
 import { createTripFormTemplate } from '@view/trip-form.js';
 import { createEventTemplate } from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
@@ -35,7 +35,7 @@ renderTemplate(tripControlsNavigation, createTripControlsNavigationTemplate(), '
 renderTemplate(tripControlsFilters, createTripControlsFiltersTemplate(), 'beforeend');
 renderElement(tripEvents, new TripSortView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripEvents, createTripFormTemplate(MODE.NEW, tripPoints[0]), 'beforeend');
-renderTemplate(tripEvents, createTripsListTemplate(), 'beforeend');
+renderElement(tripEvents, new TripsListView().getElement(), RenderPosition.BEFOREEND);
 
 const tripList = document.querySelector('.trip-events__list');
 renderTemplate(tripList, createTripFormTemplate(MODE.EDIT, tripPoints[0]), 'afterbegin');
