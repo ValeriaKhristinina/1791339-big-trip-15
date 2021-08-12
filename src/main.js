@@ -34,14 +34,25 @@ render(tripMain, new TripRouteView(cities, totalRoutePrice, startRouteDate, fini
 render(tripControlsNavigation, new TripControlsNavigationView().getElement(), RenderPosition.BEFOREEND);
 render(tripControlsFilters, new TripControlsFiltersView().getElement(), RenderPosition.BEFOREEND);
 render(tripEvents, new TripSortView().getElement(), RenderPosition.BEFOREEND);
-render(tripEvents, new TripFormView(MODE.NEW, tripPoints[0]).getElement(), RenderPosition.BEFOREEND);
+// render(tripEvents, new TripFormView(MODE.NEW, tripPoints[0]).getElement(), RenderPosition.BEFOREEND);
 render(tripEvents, new TripsListView().getElement(), RenderPosition.BEFOREEND);
 
 const tripList = document.querySelector('.trip-events__list');
-render(tripList, new TripFormView(MODE.EDIT, tripPoints[0]).getElement(), RenderPosition.AFTERBEGIN);
 
 for (let i = 0; i < POINTS_COUNT; i++) {
-  render(tripList, new EventView(tripPoints[i]).getElement(), RenderPosition.BEFOREEND);
+  const tripEditFormComponent = new TripFormView(MODE.EDIT, tripPoints[i]).getElement();
+  const eventComponent = new EventView(tripPoints[i]).getElement();
+
+  const rollupBtn = eventComponent.querySelector('.event__rollup-btn');
+
+  render(tripList, eventComponent, RenderPosition.BEFOREEND);
+
+  rollupBtn.addEventListener('click', () => {
+    tripList.replaceChild(tripEditFormComponent,eventComponent);
+  });
+
+  tripEditFormComponent.addEventListener('submit', (evt)=>{
+    evt.preventDefault();
+    tripList.replaceChild(eventComponent, tripEditFormComponent);
+  });
 }
-
-
