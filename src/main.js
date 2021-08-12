@@ -34,7 +34,6 @@ render(tripMain, new TripRouteView(cities, totalRoutePrice, startRouteDate, fini
 render(tripControlsNavigation, new TripControlsNavigationView().getElement(), RenderPosition.BEFOREEND);
 render(tripControlsFilters, new TripControlsFiltersView().getElement(), RenderPosition.BEFOREEND);
 render(tripEvents, new TripSortView().getElement(), RenderPosition.BEFOREEND);
-// render(tripEvents, new TripFormView(MODE.NEW, tripPoints[0]).getElement(), RenderPosition.BEFOREEND);
 render(tripEvents, new TripsListView().getElement(), RenderPosition.BEFOREEND);
 
 const tripList = document.querySelector('.trip-events__list');
@@ -44,11 +43,16 @@ for (let i = 0; i < POINTS_COUNT; i++) {
   const eventComponent = new EventView(tripPoints[i]).getElement();
 
   const rollupBtn = eventComponent.querySelector('.event__rollup-btn');
+  const rolldownBtn = tripEditFormComponent.querySelector('.event__rollup-btn');
 
   render(tripList, eventComponent, RenderPosition.BEFOREEND);
 
   rollupBtn.addEventListener('click', () => {
     tripList.replaceChild(tripEditFormComponent,eventComponent);
+  });
+
+  rolldownBtn.addEventListener('click', () => {
+    tripList.replaceChild(eventComponent, tripEditFormComponent);
   });
 
   tripEditFormComponent.addEventListener('submit', (evt)=>{

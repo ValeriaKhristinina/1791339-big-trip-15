@@ -1,8 +1,8 @@
 import {createElement} from '@/utils.js';
 import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
 
-const createOfferTemplate = (offers, isChecked) => offers.map((offer, index) => `<div class="event__offer-selector">
-  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" ${isChecked? 'checked': ''}>
+const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
+  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" ${offer.isChecked? 'checked': ''}>
   <label class="event__offer-label" for="event-offer-${index}">
     <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
@@ -26,13 +26,22 @@ export const createTripFormTemplate = (mode, point = {}) => {
     price = 0,
     dateFrom = null,
     dateTo = null,
-    offers = null,
+    offers = [],
     photos = null,
   } = point;
   const dateFromLabel = dateFrom.format('DD/MM/YY');
   const dateToLabel = dateTo.format('DD/MM/YY');
   const timeFrom = dateFrom.format('HH:mm');
   const timeTo = dateTo.format('HH:mm');
+
+  const editOffers = allOffers.map((generalOffer) => {
+    const isChecked = offers.filter((offer)=> offer.title === generalOffer.title).length > 0;
+    return {
+      title: generalOffer.title,
+      price: generalOffer.price,
+      isChecked,
+    };
+  });
 
   return `<form class="event event--edit" action="#" method="post">
     <header class="event__header">
@@ -87,7 +96,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${createOfferTemplate(mode === 'edit' ? offers : allOffers, mode === 'edit')}
+          ${createOfferTemplate(mode === 'edit' ? editOffers : allOffers)}
         </div>
       </section>
       ${ destination && (destination.info) ? `<section class="event__section  event__section--destination">
