@@ -34,13 +34,20 @@ export const createTripFormTemplate = (mode, point = {}) => {
   const timeFrom = dateFrom.format('HH:mm');
   const timeTo = dateTo.format('HH:mm');
 
-  const editOffers = allOffers.map((generalOffer) => {
-    const isChecked = offers.some((offer)=> offer.title === generalOffer.title); //потом с реальными данными не забыть добавить проверку на цену
-    return {
-      title: generalOffer.title,
-      price: generalOffer.price,
-      isChecked,
-    };
+  const offersByType = allOffers.find((offer) => offer.type === type);
+  const allOffersByType = offersByType ? offersByType.offers : [];
+
+  const editOffers = offers.map((offer) => ({...offer, isChecked: true}));
+
+  allOffersByType.forEach((generalOffer) => {
+    const isExist = editOffers.some((offer)=> offer.title === generalOffer.title && offer.price === generalOffer.price);
+
+    if(!isExist) {
+      editOffers.push({
+        ...generalOffer,
+        isChecked: false,
+      });
+    }
   });
 
   return `<form class="event event--edit" action="#" method="post">
@@ -96,7 +103,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${createOfferTemplate(mode === ModeForm.EDIT ? editOffers : allOffers)}
+          ${createOfferTemplate(mode === ModeForm.EDIT ? editOffers : allOffersByType)}
         </div>
       </section>
       ${ destination && (destination.info) ? `<section class="event__section  event__section--destination">

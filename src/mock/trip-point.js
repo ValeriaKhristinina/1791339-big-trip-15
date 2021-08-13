@@ -18,9 +18,12 @@ const createOffer = () => ({
   price: getRandomInteger(20, 80),
 });
 
-const allOffers = OFFERS_TYPE.map((offer) => ({
-  title: offer,
-  price: getRandomInteger(20, 80),
+const allOffers = TYPE_POINTS.map((type) => ({
+  type,
+  offers: OFFERS_TYPE.map((offer) => ({
+    title: offer,
+    price: getRandomInteger(20, 80),
+  })),
 }));
 
 const generateTripPoint = () => ({
