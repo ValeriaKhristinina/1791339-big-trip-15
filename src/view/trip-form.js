@@ -1,4 +1,4 @@
-import {createElement} from '@/utils.js';
+import {createElement, ModeForm, ButtonAction} from '@/utils.js';
 import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
 
 const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
@@ -35,7 +35,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
   const timeTo = dateTo.format('HH:mm');
 
   const editOffers = allOffers.map((generalOffer) => {
-    const isChecked = offers.filter((offer)=> offer.title === generalOffer.title).length > 0;
+    const isChecked = offers.some((offer)=> offer.title === generalOffer.title); //потом с реальными данными не забыть добавить проверку на цену
     return {
       title: generalOffer.title,
       price: generalOffer.price,
@@ -87,8 +87,8 @@ export const createTripFormTemplate = (mode, point = {}) => {
       </div>
 
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">${mode === 'new' ? 'Cancel' : 'Delete'}</button>
-      ${mode === 'edit' ? `<button class="event__rollup-btn" type="button">
+      <button class="event__reset-btn" type="reset">${mode === ModeForm.NEW ? ButtonAction.CANCEL : ButtonAction.DELETE}</button>
+      ${mode === ModeForm.EDIT ? `<button class="event__rollup-btn" type="button">
       <span class="visually-hidden">Open event</span>
     </button>` : ''}
     </header>
@@ -96,7 +96,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${createOfferTemplate(mode === 'edit' ? editOffers : allOffers)}
+          ${createOfferTemplate(mode === ModeForm.EDIT ? editOffers : allOffers)}
         </div>
       </section>
       ${ destination && (destination.info) ? `<section class="event__section  event__section--destination">

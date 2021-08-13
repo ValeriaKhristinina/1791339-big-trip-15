@@ -1,6 +1,6 @@
 import {createElement} from '@/utils.js';
 
-const createPageState = (state) => {
+const createPageStateTemplate = (state) => {
   if (state === 'loading') {
     return '<p class="trip-events__msg">Loading...</p>';
   }
@@ -17,7 +17,7 @@ export default class PageState {
   }
 
   getTemplate() {
-    return createPageState(this._state);
+    return createPageStateTemplate(this._state);
   }
 
   getElement() {

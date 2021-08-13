@@ -1,7 +1,6 @@
 import { createElement } from '@/utils.js';
 const createTripsListTemplate = () => (
   `<ul class="trip-events__list">
-
   </ul>`
 );
 
