@@ -6,7 +6,7 @@ import TripsListView from '@view/trips-list.js';
 import TripFormView from '@view/trip-form.js';
 import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
-import { render, RenderPosition, getTotalRoutePrice, getFullRout, ModeForm } from '@/utils';
+import { renderElement, RenderPosition, getTotalRoutePrice, getFullRout, ModeForm } from '@/utils';
 
 const POINTS_COUNT = 20;
 
@@ -22,38 +22,38 @@ const finishRouteDate = tripPoints[tripPoints.length-1].dateTo;
 const tripMainElement = document.querySelector('.trip-main');
 const tripControlsNavigationElement = tripMainElement.querySelector('.trip-controls__navigation');
 const tripControlsFiltersElement = tripMainElement.querySelector('.trip-controls__filters');
-const pageMain = document.querySelector('.page-main');
-const tripEventsElement = pageMain.querySelector('.trip-events');
+const pageMainElement = document.querySelector('.page-main');
+const tripEventsElement = pageMainElement.querySelector('.trip-events');
 
 
-render(tripMainElement, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate).getElement(), RenderPosition.AFTER_BEGIN);
-render(tripControlsNavigationElement, new TripControlsNavigationView().getElement(), RenderPosition.BEFORE_END);
-render(tripControlsFiltersElement, new TripControlsFiltersView().getElement(), RenderPosition.BEFORE_END);
-render(tripEventsElement, new TripSortView().getElement(), RenderPosition.BEFORE_END);
-render(tripEventsElement, new TripsListView().getElement(), RenderPosition.BEFORE_END);
+renderElement(tripMainElement, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate).getElement(), RenderPosition.AFTER_BEGIN);
+renderElement(tripControlsNavigationElement, new TripControlsNavigationView().getElement(), RenderPosition.BEFORE_END);
+renderElement(tripControlsFiltersElement, new TripControlsFiltersView().getElement(), RenderPosition.BEFORE_END);
+renderElement(tripEventsElement, new TripSortView().getElement(), RenderPosition.BEFORE_END);
+renderElement(tripEventsElement, new TripsListView().getElement(), RenderPosition.BEFORE_END);
 
 const tripListElement = document.querySelector('.trip-events__list');
 
 for (let i = 0; i < POINTS_COUNT; i++) {
   const tripPoint = tripPoints[i];
-  const tripEditFormComponent = new TripFormView(ModeForm.EDIT, tripPoint).getElement();
+  const tripEditFormElementComponent = new TripFormView(ModeForm.EDIT, tripPoint).getElement();
   const eventComponent = new EventView(tripPoint).getElement();
 
   const rollupButtonElement = eventComponent.querySelector('.event__rollup-btn');
-  const rolldownButtonElement = tripEditFormComponent.querySelector('.event__rollup-btn');
+  const rolldownButtonElement = tripEditFormElementComponent.querySelector('.event__rollup-btn');
 
-  render(tripListElement, eventComponent, RenderPosition.BEFORE_END);
+  renderElement(tripListElement, eventComponent, RenderPosition.BEFORE_END);
 
   rollupButtonElement.addEventListener('click', () => {
-    tripListElement.replaceChild(tripEditFormComponent,eventComponent);
+    tripListElement.replaceChild(tripEditFormElementComponent,eventComponent);
   });
 
   rolldownButtonElement.addEventListener('click', () => {
-    tripListElement.replaceChild(eventComponent, tripEditFormComponent);
+    tripListElement.replaceChild(eventComponent, tripEditFormElementComponent);
   });
 
-  tripEditFormComponent.addEventListener('submit', (evt)=>{
+  tripEditFormElementComponent.addEventListener('submit', (evt)=>{
     evt.preventDefault();
-    tripListElement.replaceChild(eventComponent, tripEditFormComponent);
+    tripListElement.replaceChild(eventComponent, tripEditFormElementComponent);
   });
 }
