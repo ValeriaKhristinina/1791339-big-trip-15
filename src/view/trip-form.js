@@ -1,7 +1,8 @@
+import {createElement, ModeForm, ButtonAction} from '@/utils.js';
 import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
 
-const createOfferTemplate = (offers, isChecked) => offers.map((offer, index) => `<div class="event__offer-selector">
-  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" ${isChecked? 'checked': ''}>
+const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
+  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" ${offer.isChecked? 'checked': ''}>
   <label class="event__offer-label" for="event-offer-${index}">
     <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
@@ -25,13 +26,29 @@ export const createTripFormTemplate = (mode, point = {}) => {
     price = 0,
     dateFrom = null,
     dateTo = null,
-    offers = null,
+    offers = [],
     photos = null,
   } = point;
   const dateFromLabel = dateFrom.format('DD/MM/YY');
   const dateToLabel = dateTo.format('DD/MM/YY');
   const timeFrom = dateFrom.format('HH:mm');
   const timeTo = dateTo.format('HH:mm');
+
+  const offersByType = allOffers.find((offer) => offer.type === type);
+  const allOffersByType = offersByType ? offersByType.offers : [];
+
+  const editOffers = offers.map((offer) => ({...offer, isChecked: true}));
+
+  allOffersByType.forEach((generalOffer) => {
+    const isExist = editOffers.some((offer)=> offer.title === generalOffer.title && offer.price === generalOffer.price);
+
+    if(!isExist) {
+      editOffers.push({
+        ...generalOffer,
+        isChecked: false,
+      });
+    }
+  });
 
   return `<form class="event event--edit" action="#" method="post">
     <header class="event__header">
@@ -77,8 +94,8 @@ export const createTripFormTemplate = (mode, point = {}) => {
       </div>
 
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">${mode === 'new' ? 'Cancel' : 'Delete'}</button>
-      ${mode === 'edit' ? `<button class="event__rollup-btn" type="button">
+      <button class="event__reset-btn" type="reset">${mode === ModeForm.NEW ? ButtonAction.CANCEL : ButtonAction.DELETE}</button>
+      ${mode === ModeForm.EDIT ? `<button class="event__rollup-btn" type="button">
       <span class="visually-hidden">Open event</span>
     </button>` : ''}
     </header>
@@ -86,7 +103,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${createOfferTemplate(mode === 'edit' ? offers : allOffers, mode === 'edit')}
+          ${createOfferTemplate(mode === ModeForm.EDIT ? editOffers : allOffersByType)}
         </div>
       </section>
       ${ destination && (destination.info) ? `<section class="event__section  event__section--destination">
@@ -102,3 +119,26 @@ export const createTripFormTemplate = (mode, point = {}) => {
     </section>
   </form>`;
 };
+
+export default class TripForm {
+  constructor(mode, point) {
+    this._mode = mode;
+    this._point = point;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripFormTemplate(this._mode, this._point);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
