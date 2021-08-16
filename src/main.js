@@ -7,7 +7,6 @@ import TripFormView from '@view/trip-form.js';
 import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
 import { renderElement, RenderPosition, getTotalRoutePrice, getFullRout, ModeForm } from '@/utils';
-import TripForm from './view/trip-form';
 
 const POINTS_COUNT = 20;
 
