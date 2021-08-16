@@ -1,4 +1,4 @@
-import {createElement} from '@/utils.js';
+import AbstractView from '@view/abstract.js';
 
 const createPageStateTemplate = (state) => {
   if (state === 'loading') {
@@ -10,24 +10,13 @@ const createPageStateTemplate = (state) => {
 
 };
 
-export default class PageState {
+export default class PageState extends AbstractView {
   constructor(state) {
+    super();
     this._state = state;
-    this._element = null;
   }
 
   getTemplate() {
     return createPageStateTemplate(this._state);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
