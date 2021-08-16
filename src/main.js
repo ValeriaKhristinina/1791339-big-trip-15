@@ -6,7 +6,7 @@ import TripsListView from '@view/trips-list.js';
 import TripFormView from '@view/trip-form.js';
 import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
-import { RenderPosition, render, replace } from '@utils/render.js';
+import { RenderPosition, render } from '@utils/render.js';
 import { getTotalRoutePrice, getFullRout, ModeForm} from '@utils/point.js';
 
 const POINTS_COUNT = 20;
