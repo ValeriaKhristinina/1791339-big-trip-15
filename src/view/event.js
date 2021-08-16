@@ -1,5 +1,5 @@
 import AbstractView from '@view/abstract.js';
-import { getDuration } from '@/utils';
+import { getDuration } from '@utils/point.js';
 
 const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="event__offer">
       <span class="event__offer-title">${offer.title}</span>

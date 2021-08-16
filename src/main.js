@@ -6,7 +6,8 @@ import TripsListView from '@view/trips-list.js';
 import TripFormView from '@view/trip-form.js';
 import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
-import { renderElement, RenderPosition, getTotalRoutePrice, getFullRout, ModeForm } from '@/utils';
+import { RenderPosition, render, replace } from '@utils/render.js';
+import { getTotalRoutePrice, getFullRout, ModeForm} from '@utils/point.js';
 
 const POINTS_COUNT = 20;
 
@@ -26,11 +27,11 @@ const pageMainElement = document.querySelector('.page-main');
 const tripEventsElement = pageMainElement.querySelector('.trip-events');
 
 
-renderElement(tripMainElement, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate).getElement(), RenderPosition.AFTER_BEGIN);
-renderElement(tripControlsNavigationElement, new TripControlsNavigationView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripControlsFiltersElement, new TripControlsFiltersView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripEventsElement, new TripSortView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripEventsElement, new TripsListView().getElement(), RenderPosition.BEFORE_END);
+render(tripMainElement, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate), RenderPosition.AFTER_BEGIN);
+render(tripControlsNavigationElement, new TripControlsNavigationView(), RenderPosition.BEFORE_END);
+render(tripControlsFiltersElement, new TripControlsFiltersView(), RenderPosition.BEFORE_END);
+render(tripEventsElement, new TripSortView(), RenderPosition.BEFORE_END);
+render(tripEventsElement, new TripsListView(), RenderPosition.BEFORE_END);
 
 const tripListElement = document.querySelector('.trip-events__list');
 
@@ -39,20 +40,16 @@ for (let i = 0; i < POINTS_COUNT; i++) {
   const tripEditFormComponent = new TripFormView(ModeForm.EDIT, tripPoint);
   const eventComponent = new EventView(tripPoint);
 
+  render(tripListElement, eventComponent.getElement(), RenderPosition.BEFORE_END);
+
   eventComponent.setEditClickHandler(() => {
     tripListElement.replaceChild(tripEditFormComponent.getElement(),eventComponent.getElement());
   });
-
-
-  renderElement(tripListElement, eventComponent.getElement(), RenderPosition.BEFORE_END);
 
   const closeForm = () => {
     tripListElement.replaceChild(eventComponent.getElement(), tripEditFormComponent.getElement());
   };
 
   tripEditFormComponent.setCloseClickHandler(closeForm);
-
   tripEditFormComponent.setFormSubmitHandler(closeForm);
-
-
 }

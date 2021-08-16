@@ -1,4 +1,4 @@
-import {ModeForm, ButtonAction} from '@/utils.js';
+import {ModeForm, ButtonAction} from '@utils/point.js';
 import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
 import AbstractView from '@view/abstract.js';
 
