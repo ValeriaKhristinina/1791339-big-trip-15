@@ -7,6 +7,7 @@ import TripFormView from '@view/trip-form.js';
 import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
 import { renderElement, RenderPosition, getTotalRoutePrice, getFullRout, ModeForm } from '@/utils';
+import TripForm from './view/trip-form';
 
 const POINTS_COUNT = 20;
 
@@ -36,24 +37,23 @@ const tripListElement = document.querySelector('.trip-events__list');
 
 for (let i = 0; i < POINTS_COUNT; i++) {
   const tripPoint = tripPoints[i];
-  const tripEditFormElementComponent = new TripFormView(ModeForm.EDIT, tripPoint).getElement();
-  const eventComponent = new EventView(tripPoint).getElement();
+  const tripEditFormComponent = new TripFormView(ModeForm.EDIT, tripPoint);
+  const eventComponent = new EventView(tripPoint);
 
-  const rollupButtonElement = eventComponent.querySelector('.event__rollup-btn');
-  const rolldownButtonElement = tripEditFormElementComponent.querySelector('.event__rollup-btn');
-
-  renderElement(tripListElement, eventComponent, RenderPosition.BEFORE_END);
-
-  rollupButtonElement.addEventListener('click', () => {
-    tripListElement.replaceChild(tripEditFormElementComponent,eventComponent);
+  eventComponent.setEditClickHandler(() => {
+    tripListElement.replaceChild(tripEditFormComponent.getElement(),eventComponent.getElement());
   });
 
-  rolldownButtonElement.addEventListener('click', () => {
-    tripListElement.replaceChild(eventComponent, tripEditFormElementComponent);
-  });
 
-  tripEditFormElementComponent.addEventListener('submit', (evt)=>{
-    evt.preventDefault();
-    tripListElement.replaceChild(eventComponent, tripEditFormElementComponent);
-  });
+  renderElement(tripListElement, eventComponent.getElement(), RenderPosition.BEFORE_END);
+
+  const closeForm = () => {
+    tripListElement.replaceChild(eventComponent.getElement(), tripEditFormComponent.getElement());
+  };
+
+  tripEditFormComponent.setCloseClickHandler(closeForm);
+
+  tripEditFormComponent.setFormSubmitHandler(closeForm);
+
+
 }
