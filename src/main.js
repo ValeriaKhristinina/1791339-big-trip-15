@@ -6,7 +6,8 @@ import TripsListView from '@view/trips-list.js';
 import TripFormView from '@view/trip-form.js';
 import EventView from '@view/event.js';
 import { generateTripPoint } from '@/mock/trip-point';
-import { renderElement, RenderPosition, getTotalRoutePrice, getFullRout, ModeForm } from '@/utils';
+import { RenderPosition, render } from '@utils/render.js';
+import { getTotalRoutePrice, getFullRout, ModeForm} from '@utils/point.js';
 
 const POINTS_COUNT = 20;
 
@@ -26,34 +27,29 @@ const pageMainElement = document.querySelector('.page-main');
 const tripEventsElement = pageMainElement.querySelector('.trip-events');
 
 
-renderElement(tripMainElement, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate).getElement(), RenderPosition.AFTER_BEGIN);
-renderElement(tripControlsNavigationElement, new TripControlsNavigationView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripControlsFiltersElement, new TripControlsFiltersView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripEventsElement, new TripSortView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripEventsElement, new TripsListView().getElement(), RenderPosition.BEFORE_END);
+render(tripMainElement, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate), RenderPosition.AFTER_BEGIN);
+render(tripControlsNavigationElement, new TripControlsNavigationView());
+render(tripControlsFiltersElement, new TripControlsFiltersView());
+render(tripEventsElement, new TripSortView());
+render(tripEventsElement, new TripsListView());
 
 const tripListElement = document.querySelector('.trip-events__list');
 
 for (let i = 0; i < POINTS_COUNT; i++) {
   const tripPoint = tripPoints[i];
-  const tripEditFormElementComponent = new TripFormView(ModeForm.EDIT, tripPoint).getElement();
-  const eventComponent = new EventView(tripPoint).getElement();
+  const tripEditFormComponent = new TripFormView(ModeForm.EDIT, tripPoint);
+  const eventComponent = new EventView(tripPoint);
 
-  const rollupButtonElement = eventComponent.querySelector('.event__rollup-btn');
-  const rolldownButtonElement = tripEditFormElementComponent.querySelector('.event__rollup-btn');
+  render(tripListElement, eventComponent);
 
-  renderElement(tripListElement, eventComponent, RenderPosition.BEFORE_END);
-
-  rollupButtonElement.addEventListener('click', () => {
-    tripListElement.replaceChild(tripEditFormElementComponent,eventComponent);
+  eventComponent.setEditClickHandler(() => {
+    tripListElement.replaceChild(tripEditFormComponent.getElement(),eventComponent.getElement());
   });
 
-  rolldownButtonElement.addEventListener('click', () => {
-    tripListElement.replaceChild(eventComponent, tripEditFormElementComponent);
-  });
+  const handleFormClose = () => {
+    tripListElement.replaceChild(eventComponent.getElement(), tripEditFormComponent.getElement());
+  };
 
-  tripEditFormElementComponent.addEventListener('submit', (evt)=>{
-    evt.preventDefault();
-    tripListElement.replaceChild(eventComponent, tripEditFormElementComponent);
-  });
+  tripEditFormComponent.setCloseClickHandler(handleFormClose);
+  tripEditFormComponent.setSaveHandler(handleFormClose);
 }

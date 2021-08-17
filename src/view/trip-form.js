@@ -1,5 +1,19 @@
-import {createElement, ModeForm, ButtonAction} from '@/utils.js';
+import {ModeForm, ButtonAction} from '@utils/point.js';
 import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
+import AbstractView from '@view/abstract.js';
+
+const BLANK_POINT = {
+  type: '',
+  destination: {
+    name: '',
+    info: '',
+  },
+  price: 0,
+  dateFrom: null,
+  dateTo: null,
+  offers: [],
+  photos: [],
+};
 
 const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
   <input class="event__offer-checkbox  visually-hidden" id="event-offer-${index}" type="checkbox" name="event-offer-${index}" ${offer.isChecked? 'checked': ''}>
@@ -20,15 +34,7 @@ const createDestinationTemplate = (destinations) => destinations.map((destinatio
 const createImageTemplate = (photos) => photos.map((photo) => `<img class="event__photo" src="${photo}" alt="Event photo">`).join('');
 
 export const createTripFormTemplate = (mode, point = {}) => {
-  const {
-    type = '',
-    destination,
-    price = 0,
-    dateFrom = null,
-    dateTo = null,
-    offers = [],
-    photos = null,
-  } = point;
+  const { type, destination, price, dateFrom, dateTo, offers, photos } = point;
   const dateFromLabel = dateFrom.format('DD/MM/YY');
   const dateToLabel = dateTo.format('DD/MM/YY');
   const timeFrom = dateFrom.format('HH:mm');
@@ -120,25 +126,36 @@ export const createTripFormTemplate = (mode, point = {}) => {
   </form>`;
 };
 
-export default class TripForm {
-  constructor(mode, point) {
+export default class TripForm extends AbstractView {
+  constructor(mode, point = BLANK_POINT) {
+    super();
     this._mode = mode;
     this._point = point;
-    this._element = null;
+    this.rollupButtonClickHandler = this.rollupButtonClickHandler.bind(this);
+    this._formSaveHandler = this._formSaveHandler.bind(this);
   }
 
   getTemplate() {
     return createTripFormTemplate(this._mode, this._point);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  setSaveHandler(callback) {
+    this._callback.submitForm = callback;
+    this.getElement().addEventListener('submit', this._formSaveHandler);
   }
 
-  removeElement() {
-    this._element = null;
+  setCloseClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this.rollupButtonClickHandler) ;
+  }
+
+  _formSaveHandler(evt) {
+    evt.preventDefault();
+    this._callback.submitForm();
+  }
+
+  rollupButtonClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }

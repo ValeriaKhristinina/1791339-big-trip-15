@@ -1,4 +1,5 @@
-import { createElement, getDuration } from '@/utils';
+import AbstractView from '@view/abstract.js';
+import { getDuration } from '@utils/point.js';
 
 const createListOffersTemplate = (offers) => offers.map((offer) => `<li class="event__offer">
       <span class="event__offer-title">${offer.title}</span>
@@ -55,24 +56,24 @@ const createEventTemplate = (point) => {
   </li>`;
 };
 
-export default class Event {
+export default class Event extends AbstractView {
   constructor(point) {
+    super();
     this._point = point;
-    this._element = null;
+    this._rollupButtonClickHandler = this._rollupButtonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEventTemplate(this._point);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  setEditClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollupButtonClickHandler) ;
   }
 
-  removeElement() {
-    this._element = null;
+  _rollupButtonClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }

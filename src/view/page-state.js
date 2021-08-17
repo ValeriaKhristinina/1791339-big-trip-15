@@ -1,33 +1,27 @@
-import {createElement} from '@/utils.js';
+import AbstractView from '@view/abstract.js';
+
+const MODE_PAGE_STATE = {
+  LOADING: 'loading',
+  EMPTY_LIST: 'emptyList',
+};
 
 const createPageStateTemplate = (state) => {
-  if (state === 'loading') {
+  if (state === MODE_PAGE_STATE.LOADING) {
     return '<p class="trip-events__msg">Loading...</p>';
   }
-  if (state === 'emptyList') {
+  if (state === MODE_PAGE_STATE.EMPTY_LIST) {
     return '<p class="trip-events__msg">Click New Event to create your first point</p>';
   }
 
 };
 
-export default class PageState {
+export default class PageState extends AbstractView {
   constructor(state) {
+    super();
     this._state = state;
-    this._element = null;
   }
 
   getTemplate() {
     return createPageStateTemplate(this._state);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
