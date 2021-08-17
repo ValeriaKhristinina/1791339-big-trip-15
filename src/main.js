@@ -28,10 +28,10 @@ const tripEventsElement = pageMainElement.querySelector('.trip-events');
 
 
 render(tripMainElement, new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate), RenderPosition.AFTER_BEGIN);
-render(tripControlsNavigationElement, new TripControlsNavigationView(), RenderPosition.BEFORE_END);
-render(tripControlsFiltersElement, new TripControlsFiltersView(), RenderPosition.BEFORE_END);
-render(tripEventsElement, new TripSortView(), RenderPosition.BEFORE_END);
-render(tripEventsElement, new TripsListView(), RenderPosition.BEFORE_END);
+render(tripControlsNavigationElement, new TripControlsNavigationView());
+render(tripControlsFiltersElement, new TripControlsFiltersView());
+render(tripEventsElement, new TripSortView());
+render(tripEventsElement, new TripsListView());
 
 const tripListElement = document.querySelector('.trip-events__list');
 
@@ -40,7 +40,7 @@ for (let i = 0; i < POINTS_COUNT; i++) {
   const tripEditFormComponent = new TripFormView(ModeForm.EDIT, tripPoint);
   const eventComponent = new EventView(tripPoint);
 
-  render(tripListElement, eventComponent.getElement(), RenderPosition.BEFORE_END);
+  render(tripListElement, eventComponent);
 
   eventComponent.setEditClickHandler(() => {
     tripListElement.replaceChild(tripEditFormComponent.getElement(),eventComponent.getElement());

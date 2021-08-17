@@ -13,7 +13,7 @@ export const createElement = (template) => {
 };
 
 
-export const render = (container, child, place) => {
+export const render = (container, child, place = RenderPosition.BEFORE_END) => {
   if (container instanceof Abstract) {
     container = container.getElement();
   }
