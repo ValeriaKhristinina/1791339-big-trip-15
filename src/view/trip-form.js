@@ -131,7 +131,7 @@ export default class TripForm extends AbstractView {
     super();
     this._mode = mode;
     this._point = point;
-    this.rollupButtonClickHandler = this.rollupButtonClickHandler.bind(this);
+    this._rollupButtonClickHandler = this._rollupButtonClickHandler.bind(this);
     this._formSaveHandler = this._formSaveHandler.bind(this);
   }
 
@@ -140,21 +140,21 @@ export default class TripForm extends AbstractView {
   }
 
   setSaveHandler(callback) {
-    this._callback.submitForm = callback;
+    this._callback.saveForm = callback;
     this.getElement().addEventListener('submit', this._formSaveHandler);
   }
 
   setCloseClickHandler(callback) {
     this._callback.editClick = callback;
-    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this.rollupButtonClickHandler) ;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollupButtonClickHandler) ;
   }
 
   _formSaveHandler(evt) {
     evt.preventDefault();
-    this._callback.submitForm();
+    this._callback.saveForm();
   }
 
-  rollupButtonClickHandler(evt) {
+  _rollupButtonClickHandler(evt) {
     evt.preventDefault();
     this._callback.editClick();
   }
