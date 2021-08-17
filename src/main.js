@@ -46,10 +46,10 @@ for (let i = 0; i < POINTS_COUNT; i++) {
     tripListElement.replaceChild(tripEditFormComponent.getElement(),eventComponent.getElement());
   });
 
-  const closeForm = () => {
+  const handleFormClose = () => {
     tripListElement.replaceChild(eventComponent.getElement(), tripEditFormComponent.getElement());
   };
 
-  tripEditFormComponent.setCloseClickHandler(closeForm);
-  tripEditFormComponent.setFormSubmitHandler(closeForm);
+  tripEditFormComponent.setCloseClickHandler(handleFormClose);
+  tripEditFormComponent.setSaveHandler(handleFormClose);
 }

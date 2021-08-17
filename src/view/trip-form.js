@@ -4,12 +4,15 @@ import AbstractView from '@view/abstract.js';
 
 const BLANK_POINT = {
   type: '',
-  destination: '',
+  destination: {
+    name: '',
+    info: '',
+  },
   price: 0,
   dateFrom: null,
   dateTo: null,
   offers: [],
-  photos: null,
+  photos: [],
 };
 
 const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
@@ -128,31 +131,31 @@ export default class TripForm extends AbstractView {
     super();
     this._mode = mode;
     this._point = point;
-    this._editClickHandler = this._editClickHandler.bind(this);
-    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this.rollupButtonClickHandler = this.rollupButtonClickHandler.bind(this);
+    this._formSaveHandler = this._formSaveHandler.bind(this);
   }
 
   getTemplate() {
     return createTripFormTemplate(this._mode, this._point);
   }
 
-  _formSubmitHandler(evt) {
-    evt.preventDefault();
-    this._callback.formSubmit();
-  }
-
-  _editClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.editClick();
-  }
-
-  setFormSubmitHandler(callback) {
-    this._callback.formSubmit = callback;
-    this.getElement().addEventListener('submit', this._formSubmitHandler);
+  setSaveHandler(callback) {
+    this._callback.submitForm = callback;
+    this.getElement().addEventListener('submit', this._formSaveHandler);
   }
 
   setCloseClickHandler(callback) {
     this._callback.editClick = callback;
-    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._editClickHandler) ;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this.rollupButtonClickHandler) ;
+  }
+
+  _formSaveHandler(evt) {
+    evt.preventDefault();
+    this._callback.submitForm();
+  }
+
+  rollupButtonClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }
