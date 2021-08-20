@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+export const POINTS_COUNT = 20;
+
 export const ModeForm = {
   NEW: 'new',
   EDIT: 'edit',
