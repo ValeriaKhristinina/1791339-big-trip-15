@@ -15,7 +15,7 @@ export default class Point {
   }
 
   _handleFormSave ()  {
-    /// send to backend
+    /// some code for sending to server
     this._handleFormClose();
   }
 
@@ -27,6 +27,19 @@ export default class Point {
 
     this._eventComponent.setEditClickHandler(() => {
       this._tripListElement.replaceChild(this._tripEditFormComponent.getElement(), this._eventComponent.getElement());
+    });
+
+    this._eventComponent.setFavoriteClickHamdler(() => {
+      const favoriteButton = this._eventComponent.getElement().querySelector('.event__favorite-btn');
+
+      if (!tripPoint.isFavorite) {
+        tripPoint.isFavorite = true;
+        favoriteButton.classList.add('event__favorite-btn--active');
+
+      } else {
+        tripPoint.isFavorite = false;
+        favoriteButton.classList.remove('event__favorite-btn--active');
+      }
     });
 
 
