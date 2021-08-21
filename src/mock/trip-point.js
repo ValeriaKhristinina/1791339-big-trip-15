@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 import { getRandomInteger } from '@/mock/random.js';
 
 const TYPE_POINTS = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
@@ -27,6 +28,7 @@ const allOffers = TYPE_POINTS.map((type) => ({
 }));
 
 const generateTripPoint = () => ({
+  id: nanoid(),
   type: TYPE_POINTS[getRandomInteger(0, TYPE_POINTS.length - 1)],
   destination: {
     name: DESTINATIONS[getRandomInteger(0, DESTINATIONS.length - 1)],

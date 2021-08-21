@@ -1,51 +1,97 @@
 import EventView from '@view/event.js';
 import TripFormView from '@view/trip-form.js';
 import { ModeForm} from '@utils/point.js';
-import { render } from '@utils/render.js';
+import { render, replace, remove } from '@utils/render.js';
+
+const ModePoint = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
 
 export default class Point {
-  constructor(tripListElement) {
+  constructor(tripListElement, changeData, changeMode) {
     this._tripListElement = tripListElement;
-    this._handleFormClose = this._handleFormClose.bind(this);
-    this._handleFormSave = this._handleFormSave.bind(this);
+    this._changeData = changeData;
+    this._changeMode = changeMode;
+
+    this._eventComponent = null;
+    this._tripEditFormComponent = null;
+    this._mode = ModePoint.DEFAULT;
+
+    this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
+    this._replaceFormToPoint = this._replaceFormToPoint.bind(this);
+    this._replacePointToForm = this._replacePointToForm.bind(this);
   }
 
-  _handleFormClose ()  {
-    this._tripListElement.replaceChild(this._eventComponent.getElement(), this._tripEditFormComponent.getElement());
-  }
-
-  _handleFormSave ()  {
-    /// some code for sending to server
-    this._handleFormClose();
-  }
 
   init(tripPoint) {
+    this._tripPoint = tripPoint;
+    const prevEventComponent = this._eventComponent;
+    const prevTripEditFormComponent = this._tripEditFormComponent;
+
     this._tripEditFormComponent = new TripFormView(ModeForm.EDIT, tripPoint);
     this._eventComponent = new EventView(tripPoint);
 
-    render(this._tripListElement, this._eventComponent);
+    this._eventComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._eventComponent.setEditClickHandler(this._replacePointToForm);
 
-    this._eventComponent.setEditClickHandler(() => {
-      this._tripListElement.replaceChild(this._tripEditFormComponent.getElement(), this._eventComponent.getElement());
-    });
-
-    this._eventComponent.setFavoriteClickHamdler(() => {
-      const favoriteButton = this._eventComponent.getElement().querySelector('.event__favorite-btn');
-
-      if (!tripPoint.isFavorite) {
-        tripPoint.isFavorite = true;
-        favoriteButton.classList.add('event__favorite-btn--active');
-
-      } else {
-        tripPoint.isFavorite = false;
-        favoriteButton.classList.remove('event__favorite-btn--active');
-      }
-    });
+    this._tripEditFormComponent.setCloseClickHandler(this._replaceFormToPoint);
+    this._tripEditFormComponent.setSaveHandler(this._replaceFormToPoint);
 
 
-    this._tripEditFormComponent.setCloseClickHandler(this._handleFormClose);
-    this._tripEditFormComponent.setSaveHandler(this._handleFormSave);
+    if (prevEventComponent === null || prevTripEditFormComponent === null) {
+      render(this._tripListElement, this._eventComponent);
+      return;
+    }
 
+    if (this._mode === ModePoint.DEFAULT) {
+      replace(this._eventComponent, prevEventComponent);
+    }
+
+    if (this._mode === ModePoint.EDITING) {
+      replace(this._tripEditFormComponent, prevTripEditFormComponent);
+    }
+
+    remove(prevEventComponent);
+    remove(prevTripEditFormComponent);
+  }
+
+  destroy() {
+    remove(this._eventComponent);
+    remove(this._tripEditFormComponent);
+  }
+
+  resetView() {
+    if(this._mode !== ModePoint.DEFAULT) {
+      this._replaceFormToPoint();
+    }
+  }
+
+  _replacePointToForm() {
+    replace(this._tripEditFormComponent, this._eventComponent);
+    this._changeMode();
+    this._mode = ModePoint.EDITING;
+  }
+
+  _replaceFormToPoint() {
+    replace(this._eventComponent, this._tripEditFormComponent);
+    this._mode = ModePoint.DEFAULT;
+  }
+
+  _handleFormEditClick() {
+    this._replacePointToForm();
+  }
+
+  _handleFavoriteClick() {
+    this._changeData(
+      Object.assign(
+        {},
+        this._tripPoint,
+        {
+          isFavorite: !this._tripPoint.isFavorite,
+        },
+      ),
+    );
   }
 
 }
