@@ -34,8 +34,6 @@ export const render = (container, child, place = RenderPosition.BEFORE_END) => {
 
 export const replace = (newChild, oldChild) => {
 
-  let parent = null;
-
   if (oldChild instanceof Abstract) {
     oldChild = oldChild.getElement();
   }
@@ -44,9 +42,7 @@ export const replace = (newChild, oldChild) => {
     newChild = newChild.getElement();
   }
 
-  if (oldChild !== null) {
-    parent = oldChild.parentElement;
-  }
+  const parent = oldChild.parentElement || null;
 
 
   if (parent === null || oldChild === null || newChild === null) {
