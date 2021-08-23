@@ -4,12 +4,11 @@ import TripControlsFiltersView from '@view/trip-controls-filters.js';
 import TripSortView from '@view/trip-sort.js';
 import TripsListView from '@view/trips-list.js';
 
-import { updateItem } from '@utils/common.js';
+import { updateItemById } from '@utils/common.js';
+import { POINTS_COUNT } from '@utils/point.js';
 import { RenderPosition, render } from '@utils/render.js';
 
 import PointPresenter from './point.js';
-
-const POINTS_COUNT = 20;
 
 export default class Trip {
   constructor(tripMainElement, tripControlsNavigationElement, tripControlsFiltersElement, tripEventsElement) {
@@ -49,7 +48,7 @@ export default class Trip {
   }
 
   _handlePointChange(updateTask) {
-    this._tripPoints = updateItem(this._tripPoints, updateTask );
+    this._tripPoints = updateItemById(this._tripPoints, updateTask );
     this._pointPresenter.get(updateTask.id).init(updateTask );
   }
 

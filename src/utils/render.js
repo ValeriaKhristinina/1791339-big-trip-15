@@ -33,6 +33,9 @@ export const render = (container, child, place = RenderPosition.BEFORE_END) => {
 };
 
 export const replace = (newChild, oldChild) => {
+
+  let parent = null;
+
   if (oldChild instanceof Abstract) {
     oldChild = oldChild.getElement();
   }
@@ -41,11 +44,15 @@ export const replace = (newChild, oldChild) => {
     newChild = newChild.getElement();
   }
 
-  const parent = oldChild.parentElement;
+  if (oldChild !== null) {
+    parent = oldChild.parentElement;
+  }
+
 
   if (parent === null || oldChild === null || newChild === null) {
     throw new Error('Can\'t replace unexisting elements');
   }
+
 
   parent.replaceChild(newChild, oldChild);
 };
