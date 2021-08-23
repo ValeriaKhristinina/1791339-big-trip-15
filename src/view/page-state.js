@@ -1,15 +1,15 @@
 import AbstractView from '@view/abstract.js';
 
-const MODE_PAGE_STATE = {
+const PageMode = {
   LOADING: 'loading',
   EMPTY_LIST: 'emptyList',
 };
 
 const createPageStateTemplate = (state) => {
-  if (state === MODE_PAGE_STATE.LOADING) {
+  if (state === PageMode.LOADING) {
     return '<p class="trip-events__msg">Loading...</p>';
   }
-  if (state === MODE_PAGE_STATE.EMPTY_LIST) {
+  if (state === PageMode.EMPTY_LIST) {
     return '<p class="trip-events__msg">Click New Event to create your first point</p>';
   }
 
