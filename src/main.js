@@ -1,4 +1,4 @@
-import { generateTripPoint } from '@/mock/trip-point';
+import { generateTripPoint, destinations } from '@/mock/trip-point';
 import { getTotalRoutePrice, getFullRout, POINTS_COUNT } from '@utils/point.js';
 import TripPresenter from '@presenter/trip.js';
 
@@ -17,4 +17,4 @@ const tripEventsElement = document.querySelector('.page-main .trip-events');
 
 const tripPresenter = new TripPresenter(tripMainElement, tripControlsNavigationElement,tripControlsFiltersElement, tripEventsElement);
 
-tripPresenter.init(tripPoints, cities, totalRoutePrice, startRouteDate, finishRouteDate);
+tripPresenter.init(tripPoints, cities, totalRoutePrice, startRouteDate, finishRouteDate, destinations);

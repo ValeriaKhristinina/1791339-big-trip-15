@@ -1,18 +1,18 @@
 import {ModeForm, ButtonAction} from '@utils/point.js';
-import { TYPE_POINTS, allOffers , DESTINATIONS } from '@/mock/trip-point';
-import AbstractView from '@view/abstract.js';
+import { TYPE_POINTS, allOffers } from '@/mock/trip-point';
+import SmartView from '@view/smart.js';
 
 const BLANK_POINT = {
   type: '',
   destination: {
     name: '',
-    info: '',
+    description: '',
+    pictures: [],
   },
   price: 0,
   dateFrom: null,
   dateTo: null,
   offers: [],
-  photos: [],
 };
 
 const createOfferTemplate = (offers) => offers.map((offer, index) => `<div class="event__offer-selector">
@@ -29,32 +29,21 @@ const createEventTypeTemplate = (types, selectedType) => types.map((type) => `<d
 <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
 </div>`).join('');
 
-const createDestinationTemplate = (destinations) => destinations.map((destination) => `<option value="${destination}"></option>`).join('');
+const createDestinationTemplate = (destinations) => destinations.map((destination) => `<option value="${destination.name}"></option>`).join('');
 
 const createImageTemplate = (photos) => photos.map((photo) => `<img class="event__photo" src="${photo}" alt="Event photo">`).join('');
 
-export const createTripFormTemplate = (mode, point = {}) => {
-  const { type, destination, price, dateFrom, dateTo, offers, photos } = point;
-  const dateFromLabel = dateFrom.format('DD/MM/YY');
-  const dateToLabel = dateTo.format('DD/MM/YY');
-  const timeFrom = dateFrom.format('HH:mm');
-  const timeTo = dateTo.format('HH:mm');
-
-  const offersByType = allOffers.find((offer) => offer.type === type);
-  const allOffersByType = offersByType ? offersByType.offers : [];
-
-  const editOffers = offers.map((offer) => ({...offer, isChecked: true}));
-
-  allOffersByType.forEach((generalOffer) => {
-    const isExist = editOffers.some((offer)=> offer.title === generalOffer.title && offer.price === generalOffer.price);
-
-    if(!isExist) {
-      editOffers.push({
-        ...generalOffer,
-        isChecked: false,
-      });
-    }
-  });
+export const createTripFormTemplate = (mode, data = {}, destinations) => {
+  const {
+    type,
+    destination,
+    price,
+    dateFromLabel,
+    dateToLabel,
+    timeFrom,
+    timeTo,
+    allOffersByType,
+    editOffers } = data;
 
   return `<form class="event event--edit" action="#" method="post">
     <header class="event__header">
@@ -79,7 +68,7 @@ export const createTripFormTemplate = (mode, point = {}) => {
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination !== null ? destination.name : ''}" list="destination-list-1">
         <datalist id="destination-list-1">
-          ${createDestinationTemplate(DESTINATIONS)}
+          ${createDestinationTemplate(destinations)}
         </datalist>
       </div>
 
@@ -112,12 +101,12 @@ export const createTripFormTemplate = (mode, point = {}) => {
           ${createOfferTemplate(mode === ModeForm.EDIT ? editOffers : allOffersByType)}
         </div>
       </section>
-      ${ destination && (destination.info) ? `<section class="event__section  event__section--destination">
+      ${ destination && (destination.description) ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${destination.info}</p>
+      <p class="event__destination-description">${destination.description}</p>
       <div class="event__photos-container">
         <div class="event__photos-tape">
-        ${createImageTemplate(photos)}
+        ${createImageTemplate(destination.pictures)}
         </div>
       </div>
     </section>` : ''}
@@ -126,17 +115,22 @@ export const createTripFormTemplate = (mode, point = {}) => {
   </form>`;
 };
 
-export default class TripForm extends AbstractView {
-  constructor(mode, point = BLANK_POINT) {
+export default class TripForm extends SmartView {
+  constructor(mode, point = BLANK_POINT, destinations) {
     super();
     this._mode = mode;
-    this._point = point;
+    this._data = TripForm.parsePointToData(point);
+    this._destinations = destinations;
     this._rollupButtonClickHandler = this._rollupButtonClickHandler.bind(this);
     this._formSaveHandler = this._formSaveHandler.bind(this);
+    this._typeChangeHandler = this._typeChangeHandler.bind(this);
+    this._destinationChangeHandler = this._destinationChangeHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createTripFormTemplate(this._mode, this._point);
+    return createTripFormTemplate(this._mode, this._data, this._destinations);
   }
 
   setSaveHandler(callback) {
@@ -151,11 +145,87 @@ export default class TripForm extends AbstractView {
 
   _formSaveHandler(evt) {
     evt.preventDefault();
-    this._callback.saveForm();
+    this._callback.saveForm(TripForm.parseDataToTask(this._data));
   }
 
   _rollupButtonClickHandler(evt) {
     evt.preventDefault();
     this._callback.editClick();
+  }
+
+  _typeChangeHandler(evt) {
+    this.updateData({
+      type: evt.target.value,
+    });
+  }
+
+  _destinationChangeHandler(evt) {
+    const newDestination = this._destinations.find((destination) => destination.name === evt.target.value);
+    if(newDestination) {
+      this.updateData({
+        destination:  newDestination,
+      });
+    }
+
+  }
+
+  static parsePointToData(point) {
+    const { type, dateFrom, dateTo, offers } = point;
+    const dateFromLabel = dateFrom.format('DD/MM/YY');
+    const dateToLabel = dateTo.format('DD/MM/YY');
+    const timeFrom = dateFrom.format('HH:mm');
+    const timeTo = dateTo.format('HH:mm');
+
+    const offersByType = allOffers.find((offer) => offer.type === type);
+    const allOffersByType = offersByType ? offersByType.offers : [];
+
+    const editOffers = offers.map((offer) => ({...offer, isChecked: true}));
+
+    allOffersByType.forEach((generalOffer) => {
+      const isExist = editOffers.some((offer)=> offer.title === generalOffer.title && offer.price === generalOffer.price);
+
+      if(!isExist) {
+        editOffers.push({
+          ...generalOffer,
+          isChecked: false,
+        });
+      }
+    });
+    return Object.assign(
+      {},
+      point,
+      {
+        dateFromLabel,
+        dateToLabel,
+        timeFrom,
+        timeTo,
+        allOffersByType,
+        editOffers,
+      },
+    );
+  }
+
+  static parseDataToTask(data) {
+    data = Object.assign({}, data);
+
+    delete data.dateFromLabel;
+    delete data.dateToLabel;
+    delete data.timeFrom;
+    delete data.timeTo;
+    delete data.allOffersByType;
+    delete data.editOffers;
+
+    return data;
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setSaveHandler(this._callback.saveForm);
+    this.setCloseClickHandler(this._callback.editClick);
+  }
+
+  _setInnerHandlers() {
+    this.getElement().querySelector('.event__type-group').addEventListener('change', this._typeChangeHandler);
+    this.getElement().querySelector('.event__input--destination').addEventListener('change', this._destinationChangeHandler);
   }
 }

@@ -24,13 +24,13 @@ export default class Point {
   }
 
 
-  init(tripPoint) {
+  init(tripPoint, destinations) {
     this._tripPoint = tripPoint;
     const prevEventComponent = this._eventComponent;
     const prevTripEditFormComponent = this._tripEditFormComponent;
 
-    this._tripEditFormComponent = new TripFormView(ModeForm.EDIT, tripPoint);
-    this._eventComponent = new EventView(tripPoint);
+    this._tripEditFormComponent = new TripFormView(ModeForm.EDIT, this._tripPoint, destinations);
+    this._eventComponent = new EventView(this._tripPoint);
 
     this._eventComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._eventComponent.setEditClickHandler(this._replacePointToForm);

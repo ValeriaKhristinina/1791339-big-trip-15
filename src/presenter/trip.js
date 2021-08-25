@@ -29,9 +29,10 @@ export default class Trip {
     this._handleModePointChange = this._handleModePointChange.bind(this);
   }
 
-  init(tripPoints, cities, totalRoutePrice, startRouteDate, finishRouteDate) {
+  init(tripPoints, cities, totalRoutePrice, startRouteDate, finishRouteDate, destinations) {
     this._tripPoints = tripPoints;
     this._tripRouteComponent = new TripRouteView(cities, totalRoutePrice, startRouteDate, finishRouteDate);
+    this._destinations = destinations;
 
     render(this._tripMainElement, this._tripRouteComponent, RenderPosition.AFTER_BEGIN);
     render(this._tripControlsNavigationElement, this._tripControlsNavigationComponent);
@@ -61,7 +62,7 @@ export default class Trip {
 
   _renderTripPoint(tripPoint) {
     const pointPresenter = new PointPresenter(this._tripListViewComponent.getElement(),this._handlePointChange, this._handleModePointChange);
-    pointPresenter.init(tripPoint);
+    pointPresenter.init(tripPoint,  this._destinations);
 
     this._pointPresenter.set(tripPoint.id, pointPresenter);
 
